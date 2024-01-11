@@ -32,7 +32,6 @@ A multi-arm trial allows simultaneous comparison of multiple experimental treatm
 
 
 
-
 # Statement of Need
 Traditional two-arm randomized control trials are not an optimal choice when multiple experimental arms are available for testing efficacy. In such situations, a multiple-arm trial should be preferred, which allows simultaneous comparison of multiple experimental arms with a common control and provides substantial efficiency advantage. In multi-arm trials, several arms are monitored in a group sequential fashion, with ineffective arms being dropped out of the study. 
 
