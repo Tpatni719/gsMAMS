@@ -44,7 +44,7 @@ The computational complexity of this package is very low. The FWER is controlled
 The operating characteristics for continuous and ordinal outcomes require less computational effort than the survival outcomes. The computational burden of sample size and SCPRT boundary calculation for continuous, ordinal and survival outcomes is minimal because there are only two critical components of algorithm which are the roots of FWER and power i.e., critical value and samples size.    
  
 # Application
-In this section, we will demonstrate the use of \pkg{gsMAMS} package and provide a separate example for each type of outcome.
+In this section, we will demonstrate the use of `gsMAMS` package and provide a separate example for each type of outcome.
 
 ## Continuous outcome
 For the continuous outcome, we will consider TAILoR trial, which is a phase II trial, and it compares three doses of telmisartan (20, 40, 80mg) with no intervention (control) for the reduction of insulin resistance in human immunodeficiency virus-positive patients receiving combination antiretroviral therapy. The primary outcome measure is a reduction in mean homeostasis model assessment of insulin resistance (HOMA-IR) score at 24 weeks. The standardized desirable and minimal effect sizes for efficacy are set as $\delta^{(1)}$ = 0.545 for 80mg group and $\delta^{(0)}$ = 0.178 for 20 and 40 mg groups, respectively, for the trial design. 
