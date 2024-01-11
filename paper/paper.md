@@ -57,6 +57,7 @@ set.seed(1234)
 design_cont(delta0 = 0.178,delta1 = 0.545,alpha = 0.05,beta = 0.1,K=3,
 frac = c(0.5,1))
 ```
+
 For FWER and Stagewise FWER:
 
 The operating characteristics of the trial can be generated using the op_power_cont and op_fwer_cont functions for power under alternative hypothesis and FWER under global null hypothesis respectively. Most of the arguments in the function are similar to size and SCPRT functions with the exception of number of simulations(nsim) and seed number(seed).
@@ -74,7 +75,7 @@ delta1=0.545,nsim=10000,seed=10)
 
 ## Ordinal Outcome
 For ordinal outcome, we will consider ASCLEPIOS trial, a phase II trial for patients with stroke. The primary outcome response is the patient's Barthel index assessed 90 days after randomization. This is an ordered categorical score ranging from 0 (vegetative state) to 100 (complete recovery) in steps of 5, and relates to activities of daily living that the patient is able to undertake. Following the ASCLEPIOS study, we group the outcome categories of the score into six larger categories. We will consider the treatment worthwhile if the odds ratio between the effective and control arms is 3.06 and we set the null odds ratio to be 1.32 which is the odds ratio between the ineffective and control arms.   
-The sample size calculation is based on a one-sided FWER of 5\% and a power of 90\%. Based on the trial characteristics, we will design the trial for a three-stage design. The design parameters for a five-arm (K = 4) trial can be calculated using \fct{design\_ord} function and the arguments in the function correspond to probability of outcomes in control group(\code{prob}), odds ratio of ineffective treatment group vs control(\code{or0}), odds ratio of effective treatment group vs control(\code{or}) and the remaining arguments are similar to the \fct{design\_cont} function for continuous outcome.
+The sample size calculation is based on a one-sided FWER of 5\% and a power of 90\%. Based on the trial characteristics, we will design the trial for a three-stage design. The design parameters for a five-arm (K = 4) trial can be calculated using design_ord function and the arguments in the function correspond to probability of outcomes in control group(prob), odds ratio of ineffective treatment group vs control(or0), odds ratio of effective treatment group vs control(or) and the remaining arguments are similar to the design_cont function for continuous outcome.
 
 ```R
 design_ord(prob=c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166),or=3.06,
@@ -92,7 +93,7 @@ design_surv(m0=20,HR0=1, HR1=0.67032, ta=40,tf=20,alpha=0.05,beta=0.1,
 K=4,kappa=1,eta=0,frac=c(0.5,1))
 ```
 
-The operating characteristics of the trial can be generated using the \fct{op\_power\_surv} and \fct{op\_fwer\_surv} function.
+The operating characteristics of the trial can be generated using the op_power_surv and op_fwer_surv function.
 
 For FWER and Stagewise FWER:
 ```R
