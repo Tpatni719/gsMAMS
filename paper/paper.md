@@ -14,7 +14,7 @@ authors:
     orcid: 0000-0002-7046-4316
     affiliation: "1"
   - name: Jianrong Wu
-    orcid: 0000-0003-2395-4619
+    orcid: 0000-0002-3519-5894
     affiliation: "2"
     
 affiliations:
