@@ -24,10 +24,10 @@ Usage
 
 ```r
 #For designing a trial with continuous outcome.
-design_cont(delta0 = 0.178,delta1 = 0.545,alpha = 0.05,beta = 0.1,K=3, frac = c(0.5,1))
+design_cont(delta0 = 0.178, delta1 = 0.545, alpha = 0.05, beta = 0.1, K = 3, frac = c(0.5, 1))
 
 #Generating operating characteristics of the trial.
-op_power_cont(alpha=0.05,beta=0.1,K=3,frac=c(0.5,1),delta0=0.178, delta1=0.545,nsim=10000,seed=10)
+op_power_cont(alpha = 0.05, beta = 0.1, K = 3, frac = c(0.5, 1), delta0 = 0.178, delta1 = 0.545, nsim = 10000, seed = 10)
 ```
 For detailed usage of the package, please see the paper in the repository.
 
