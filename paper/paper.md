@@ -63,7 +63,25 @@ library(gsMAMS)
 ```R
 set.seed(1234)
 design_cont(delta0 = 0.178, delta1 = 0.545, alpha = 0.05, beta = 0.1, K = 3, frac = c(0.5, 1))
+
+## $`Sample size`
+##                                            Stage 1 Stage 2
+## Cumulative sample size for treatment group      40      79
+## Cumulative sample size for control group        40      79
+## 
+## $`Maximum total sample size for the trial`
+## [1] 316
+## 
+## $`Boundary values`
+##             Stage 1 Stage 2
+## Lower bound   0.006   2.062
+## Upper bound   2.910   2.062
+
 ```
+
+The design output shows the cumulative sample size for treatment and control groups at each stage. The SCPRT lower and upper boundaries are (0.006, 2.062) and (2.91, 2.062) respectively.
+Based on the design parameters, the first interim analysis can be conducted after the enrollment of 40 patients in the control arm. If the test statistic $Z_{k,l}<0.006$, the $k_{th}$ arm is rejected for futility at $1^{st}$ stage and the trial continues with the remaining treatment arms and the control. If the test statistic 0.006 $\le$ $Z_{k,l}$ $\le$ 2.91 for $k$=1,2,3 then the trial continues to the next stage and 39 patients are further enrolled per arm. If $Z_{k,1} >2.91$ for some $k$, the trial is terminated and the arm with maximum value of \{$Z_{k,1}$, $k$=1,2,3\} would be recommend for further study.
+
 
 For FWER and Stagewise FWER:
 
@@ -71,12 +89,55 @@ The operating characteristics of the trial can be generated using the op_power_c
 
 ```R
 op_fwer_cont(alpha = 0.05, beta = 0.1, K = 3, frac = c(0.5, 1), delta0 = 0.178, delta1 = 0.545, nsim = 10000, seed = 10)
-``` 
+
+## $FWER
+## [1] 0.05
+## 
+## $`Stagewise FWER`
+##  look1  look2 
+## 0.0050 0.0466 
+## 
+## $`Stopping probability under null`
+##  look1  look2 
+## 0.2599 0.7401 
+## 
+## $`Probability of futility under null`
+##  look1  look2 
+## 0.2549 0.6949 
+## 
+## $`Average sample size used per arm under null`
+## [1] 61.645
+
+```
+
+Based on the simulation results, the type I error at the first interim analysis is 0.5\% and at the second interim analysis, it is around 4.6\%. Therefore, the overall type I error of the trial is close to 5\%. The sample size required for the trial was 79 patients per arm but the trial used around an average of 62 subjects per arm. The stopping probability(probability of stopping the trial either due to futility or efficacy) should add up to 1 which is the case here and since this is under null configuration, the probability of futility(probability of stopping the trial when all the treatment arms becomes futile in the trial) should be around 95\% and it holds true in this case. 
+
 
 For Power and Stagewise Power:
 ```R
 op_power_cont(alpha = 0.05, beta = 0.1, K = 3, frac = c(0.5, 1), delta0 = 0.178, delta1 = 0.545, nsim = 10000, seed = 10)
+
+## $Power
+## [1] 0.893
+## 
+## $`Stagewise Power`
+##  look1  look2 
+## 0.3126 0.5804 
+## 
+## $`Stopping probability under alternative`
+##  look1  look2 
+## 0.3258 0.6742 
+## 
+## $`Probability of futility under alternative`
+##  look1  look2 
+## 0.0035 0.0821 
+## 
+## $`Average sample size used per arm under alternative`
+## [1] 62.652
+
 ```
+Based on the simulation results, the probability of success/power at the first stage is 31.26\% and at the second stage is around 58.04\%. Therefore, the overall power is approximately 90\%. The sample size required for the trial was 79 patients per arm but the trial used around an average of 62 subjects per arm. The stopping probability should add up to 1 which is the case here and under alternate configuration, the probability of futility is approximately 8.5\% which is less than 10\% type II error. The reason is that the type II error comes from both failing to find any efficacious arm (futility) and finding the less efficacious arm as the most efficacious arm. The latter part was not included when the probability of futility was calculated.
+
 
 ## Ordinal Outcome
 For ordinal outcome, we will consider ASCLEPIOS trial, a phase II trial for patients with stroke. The primary outcome response is the patient's Barthel index assessed 90 days after randomization. This is an ordered categorical score ranging from 0 (vegetative state) to 100 (complete recovery) in steps of 5, and relates to activities of daily living that the patient is able to undertake. Following the ASCLEPIOS study, we group the outcome categories of the score into six larger categories. We will consider the treatment worthwhile if the odds ratio between the effective and control arms is 3.06 and we set the null odds ratio to be 1.32 which is the odds ratio between the ineffective and control arms.   
@@ -84,7 +145,24 @@ The sample size calculation is based on a one-sided FWER of 5\% and a power of 9
 
 ```R
 design_ord(prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), or = 3.06, or0 = 1.32, alpha = 0.05, beta = 0.1, K = 4, frac = c(1/3, 2/3, 1))
+
+## $`Sample size`
+##                                            Stage 1 Stage 2 Stage 3
+## Cumulative sample size for treatment group      21      42      62
+## Cumulative sample size for control group        21      42      62
+## 
+## $`Maximum total sample size for the trial`
+## [1] 310
+## 
+## $`Boundary values`
+##             Stage 1 Stage 2 Stage 3
+## Lower bound  -0.630   0.437   2.161
+## Upper bound   3.126   3.092   2.161
+
 ```
+Based on the design parameters, the first interim analysis can be conducted after the enrollment of 21 patients(information time is 21/62 which is approximately 1/3 at this stage) in the control and treatment arms. If the test statistic $Z_{k,l}<-0.63$, the $k_{th}$ arm is rejected for futility at $1^{st}$ stage and the trial continues with the remaining treatment arms and the control. If the test statistic -0.63 $\le$ $Z_{k,l}$ $\le$ 3.126 for $k$=1,2,3,4 then the trial continues to the next stage and 21 patients are further enrolled per arm. If $Z_{k,1} >3.126$ for some $k$, the trial is terminated and the arm with maximum value of \{$Z_{k,1}$, $k$=1,2,3,4\} would be recommend for further study. Similar procedure is followed if the trial goes to second stage of interim analysis.
+
+
 The operating characteristics can be generated using the functions op_fwer_ord and op_power_ord which are similar to that of continuous outcome.
 
 ## Survival Outcome
@@ -94,18 +172,85 @@ The design parameters for a two-stage design can be calculated using the design_
 
 ```R
 design_surv(m0 = 20, HR0 = 1, HR1 = 0.67032, ta = 40, tf = 20, alpha = 0.05, beta = 0.1, K = 4, kappa = 1, eta = 0, frac = c(0.5, 1))
+
+## $`Sample size`
+##                                                              Stage 1 Stage 2
+## Cumulative number of events for combined treatment & control     164     328
+## 
+## $`Maximum total number of events for the trial`
+## [1] 820
+## 
+## $`Total number of subjects required for the trial`
+## [1] 1170
+## 
+## $`Boundary values`
+##             Stage 1 Stage 2
+## Lower bound   0.075    2.16
+## Upper bound   2.980    2.16
+
 ```
+The design output shows the cumulative number of events for treatment and control groups combined at each stage along with the futility and efficacy boundaries. The total number of subjects required for the trial per arm is 234. 
+Based on the design parameters, the first interim analysis can be conducted after the incidence of  164 events (information time is 164/328 which is 0.5 at this stage) which results from the aggregation of events in the control and treatment arms. If the test statistic $Z_{k,l}<0.075$, the $k_{th}$ arm is rejected for futility at $1^{st}$ stage and the trial continues with the remaining treatment arms and the control. If the test statistic 0.075 $\le$ $Z_{k,l}$ $\le$ 2.98 for $k$=1,2,3,4 then the trial continues to the next stage and we will wait for the incidence of additional 164 events to conduct the next interim analysis. If $Z_{k,1} >2.98$ for some $k$, the trial is terminated and the arm with maximum value of \{$Z_{k,1}$, $k$=1,2,3,4\} would be recommend for further study.
+
 
 The operating characteristics of the trial can be generated using the op_power_surv and op_fwer_surv function.
 
 For FWER and Stagewise FWER:
 ```R
 op_fwer_surv(m0 = 20, alpha = 0.05, beta = 0.1, K = 4, frac = c(1/2, 1), HR0 = 1, HR1 = 0.6703, nsim = 10000, ta = 40, tf = 20, kappa = 1, eta = 0, seed = 12)
+
+## $FWER
+## [1] 0.05
+## 
+## $`Stagewise FWER`
+##  look1  look2 
+## 0.0049 0.0460 
+## 
+## $`Stopping probability under null`
+##  look1  look2 
+## 0.2318 0.7682 
+## 
+## $`Probability of futility under null`
+##  look1  look2 
+## 0.2269 0.7234 
+## 
+## $`Average number of events happened per arm under null`
+## [1] 129.5902
+## 
+## $`Average duration of trial(months)`
+## [1] 54.27148
+
 ```
+Based on the simulation results, the type I error is around 0.4\% at first interim analysis and around 4.6\% at the second interim analysis. Therefore, the overall type I error is maintained at 5\%. The stopping probability should be around 1 which is the case here and since this is under null configuration, probability of futility should be around 95\% which holds true in this case. The average duration of trial is 54 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 130.
+
 For Power and Stagewise Power :
 ```R
 op_power_surv(m0 = 20, alpha = 0.05, beta = 0.1, K = 4, frac = c(1/2, 1), HR0 = 1, HR = 0.6703, nsim = 10000, ta = 40, tf = 20, kappa = 1, eta = 0, seed = 12)
+
+## $Power
+## [1] 0.913
+## 
+## $`Stagewise Power`
+##  look1  look2 
+## 0.3270 0.5863 
+## 
+## $`Stopping probability under alternative`
+##  look1  look2 
+## 0.3334 0.6666 
+## 
+## $`Probability of futility under alternative`
+##  look1  look2 
+## 0.0059 0.0800 
+## 
+## $`Average number of events happened per arm under alternative`
+## [1] 115.0483
+## 
+## $`Average duration of trial(months)`
+## [1] 52.27229
+
 ```
+Based on the simulation results, the probability of success/power at the first stage is 32.7\% and at the second stage is around 58.63\%. Therefore, the overall power is around 90\%. The overall stopping probability should be around 1 which is the case here and the probability of futility is around 8.5\% which is less than 10\% type II error because of the same reason as mentioned in the continuous outcome. The average duration of trial is 52 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 115.
+
  
 # Acknowledgements
 Dr. Wu's research was supported by the University of new Mexico Comprehensive Cancer Center Support Grant National Cancer Institute (NCI) P30CA118100 and 
