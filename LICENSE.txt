@@ -1,2 +1,0 @@
-YEAR: 2024
-COPYRIGHT HOLDER: Tushar Patni, Yimei Li and Jianrong Wu
