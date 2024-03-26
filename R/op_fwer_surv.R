@@ -1,28 +1,31 @@
 #' @title Provides operating characteristics of group sequential MAMS trial for survival outcome under null hypothesis
 #' @description Computes FWER and other characteristics for group-sequential MAMS trial for survival outcome.
-#' @param m0 Median survival time in control group.
-#' @param alpha Type I error.
-#' @param beta Type II error.
-#' @param K Number of treatment arms.
-#' @param frac Vector of fractions for information time at each look.
-#' @param HR0 Hazard ratio of ineffective treatment group vs control.
-#' @param HR1 Hazard ratio of effective treatment group vs control.
-#' @param nsim Number of simulations.
-#' @param ta Accrual time.
-#' @param tf Follow-up time.
-#' @param kappa Shape parameter (Kappa=1 for exponential distribution).
-#' @param eta  Rate of loss to follow-up.
-#' @param seed Random seed number.
+#' @param m0 numeric Median survival time in control group.
+#' @param alpha numeric Type I error.
+#' @param beta numeric Type II error.
+#' @param p numeric Number of treatment arms.
+#' @param frac numeric Vector of fractions for information time at each look.
+#' @param hr0 numeric Hazard ratio of ineffective treatment group vs control.
+#' @param hr1 numeric Hazard ratio of effective treatment group vs control.
+#' @param nsim numeric Number of simulations.
+#' @param ta numeric Accrual time.
+#' @param tf numeric Follow-up time.
+#' @param kappa numeric Shape parameter (Kappa=1 for exponential distribution).
+#' @param eta numeric  Rate of loss to follow-up.
+#' @param seed numeric Random seed number.
 #' @return A list of FWER, stage-wise type I error, stopping probability, probability of futility, average number of events happened per arm, average duration of trial.
 #' @import stats
 #' @importFrom survival survdiff Surv
 #' @examples
-#' op_fwer_surv(20, 0.05, 0.1, 4, c(1 / 2, 1), 1, 0.75, 12, 40, 20, 1, 0, 12)
+#' op_fwer_surv(m0=20, alpha=0.05, beta=0.1, p=4, frac=c(1 / 2, 1), hr0=1, hr1=0.75, nsim=12, ta=40, tf=20, kappa=1, eta=0, seed=12)
 #' @export
 
 
 
-op_fwer_surv <- function(m0, alpha, beta, K, frac, HR0, HR1, nsim, ta, tf, kappa, eta, seed) {
+op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa, eta, seed) {
+  HR0 <- hr0
+  HR1 <- hr1
+  K <- p
   if (K <= 1) {
     stop("K should be greater than 1.")
   }
@@ -31,7 +34,7 @@ op_fwer_surv <- function(m0, alpha, beta, K, frac, HR0, HR1, nsim, ta, tf, kappa
   }
   j <- length(frac)
 
-  bound <- SCPRT(alpha = alpha, K = K, frac = frac)
+  bound <- scprt(alpha = alpha, k = K, frac = frac)
 
 
 
@@ -63,8 +66,8 @@ op_fwer_surv <- function(m0, alpha, beta, K, frac, HR0, HR1, nsim, ta, tf, kappa
 
 
 
-  n <- Size_surv(m0 = m0, HR0 = HR0, HR1 = HR1, ta = ta, tf = tf, K = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[2]
-  d <- Size_surv(m0 = m0, HR0 = HR0, HR1 = HR1, ta = ta, tf = tf, K = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[1]
+  n <- size_surv(m0 = m0, hr0 = HR0, hr1 = HR1, ta = ta, tf = tf, k = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[2]
+  d <- size_surv(m0 = m0, hr0 = HR0, hr1 = HR1, ta = ta, tf = tf, k = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[1]
   tstar <- 1 / j
 
 

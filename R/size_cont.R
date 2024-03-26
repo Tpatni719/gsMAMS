@@ -1,20 +1,21 @@
 #' @title  Calculates the Sample Size for a Clinical Trial
 #' @description This function calculates the sample size per arm of a clinical trial for continuous outcome.
-#' @param delta0 Standardized effect size in ineffective arm.
-#' @param delta1 Standardized effect size in effective arm.
-#' @param alpha Type I error.
-#' @param beta Type II error.
-#' @param K Number of treatment arms.
+#' @param delta0 numeric Standardized effect size in ineffective arm.
+#' @param delta1 numeric Standardized effect size in effective arm.
+#' @param alpha numeric Type I error.
+#' @param beta numeric Type II error.
+#' @param k numeric Number of treatment arms.
 #' @return A numeric value indicating the sample size per arm.
 #' @examples
-#' Size_cont(delta0 = 0.178, delta1 = 0.545, alpha = 0.05, beta = 0.1, K = 4)
+#' size_cont(delta0 = 0.178, delta1 = 0.545, alpha = 0.05, beta = 0.1, k = 4)
 #' @import stats
 #' @import mvtnorm
 #' @keywords internal
 #' @noRd
 
 
-Size_cont <- function(delta0, delta1, alpha, beta, K) {
+size_cont <- function(delta0, delta1, alpha, beta, k) {
+  K<-k
   r <- 1
   delta <- c(delta1, rep(delta0, K - 1))
   if (K == 1) {

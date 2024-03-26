@@ -1,20 +1,21 @@
 #' @title Provides operating characteristics of group sequential MAMS trial for continuous outcome
 #' @description Computes power and other characteristics for group-sequential MAMS trial for continuous outcome.
-#' @param alpha Type I error.
-#' @param beta Type II error.
-#' @param K Number of treatment arms.
-#' @param frac Vector of fractions for information time at each look.
-#' @param delta0 Standardized effect size in ineffective arm.
-#' @param delta1 Standardized effect size in effective arm.
-#' @param nsim Number of simulations.
-#' @param seed Random seed number.
+#' @param alpha numeric Type I error.
+#' @param beta numeric Type II error.
+#' @param p numeric Number of treatment arms.
+#' @param frac numeric Vector of fractions for information time at each look.
+#' @param delta0 numeric Standardized effect size in ineffective arm.
+#' @param delta1 numeric Standardized effect size in effective arm.
+#' @param nsim numeric Number of simulations.
+#' @param seed numeric Random seed number.
 #' @return A list of power, stage-wise probability of success, average sample size used per arm, stopping probability, probability of futility.
 #' @import stats
 #' @examples
-#' op_power_cont(0.05, 0.1, 4, c(1 / 5, 2 / 5, 3 / 5, 4 / 5, 1), 0.178, 0.545, 12, 12)
+#' op_power_cont(alpha=0.05,beta= 0.1, p=4, frac=c(1 / 5, 2 / 5, 3 / 5, 4 / 5, 1), delta0=0.178,delta1=0.545, nsim=12, seed=12)
 #' @export
 
-op_power_cont <- function(alpha, beta, K, frac, delta0, delta1, nsim, seed) {
+op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
+  K<-p
   if (K <= 1) {
     stop("K should be greater than 1.")
   }
@@ -23,9 +24,9 @@ op_power_cont <- function(alpha, beta, K, frac, delta0, delta1, nsim, seed) {
   }
   j <- length(frac)
 
-  bound <- SCPRT(alpha = alpha, K = K, frac = frac)
+  bound <- scprt(alpha = alpha, k = K, frac = frac)
 
-  l <- Size_cont(delta0 = delta0, delta1 = delta1, alpha = alpha, beta = beta, K = K)
+  l <- size_cont(delta0 = delta0, delta1 = delta1, alpha = alpha, beta = beta, k = K)
 
   mu0 <- 0
   mu1 <- delta1

@@ -1,18 +1,19 @@
 #' @title  Efficacy and Futility boundary values
 #' @description This function calculates the upper and lower bound values for MAMS trial.
-#' @param alpha Type I error.
-#' @param K Number of treatment arms.
-#' @param frac Vector of information time at each look.
+#' @param alpha numeric Type I error.
+#' @param k numeric Number of treatment arms.
+#' @param frac numeric Vector of information time at each look.
 #' @return A list of three elements: critical.value, lshape(Futility), and ushape(Efficacy).
 #' @examples
-#' SCPRT(alpha = 0.05, K = 3, frac = c(1 / 3, 2 / 3, 1))
+#' scprt(alpha = 0.05, k = 3, frac = c(1 / 3, 2 / 3, 1))
 #' @import stats
 #' @import mvtnorm
 #' @keywords internal
 #' @noRd
 
 
-SCPRT <- function(alpha, K, frac) {
+scprt <- function(alpha, k, frac) {
+  k<-K
   r <- 1
   J <- length(frac)
   Sigma <- matrix((1 / (1 + r)), K, K)

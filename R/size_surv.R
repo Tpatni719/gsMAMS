@@ -1,19 +1,19 @@
 #' @title  Calculates the Sample Size for a Clinical Trial
 #' @description This function calculates the sample size per arm of a clinical trial for survival outcome.
-#' @param m0 Median survival time of control group.
-#' @param alpha Type I error.
-#' @param beta Type II error.
-#' @param K Number of treatment arms.
-#' @param HR0 Hazard ratio of ineffective treatment group vs control.
-#' @param HR1 Hazard ratio of effective treatment group vs control.
-#' @param ta Accrual time.
-#' @param tf Follow-up time.
-#' @param kappa Shape parameter (kappa=1 for exponential distribution).
-#' @param eta Rate of loss to follow-up.
-#' @param frac Vector of fractions for information time at each look.
+#' @param m0 numeric Median survival time of control group.
+#' @param alpha numeric Type I error.
+#' @param beta numeric Type II error.
+#' @param k numeric Number of treatment arms.
+#' @param hr0 numeric Hazard ratio of ineffective treatment group vs control.
+#' @param hr1 numeric Hazard ratio of effective treatment group vs control.
+#' @param ta numeric Accrual time.
+#' @param tf numeric Follow-up time.
+#' @param kappa numeric Shape parameter (kappa=1 for exponential distribution).
+#' @param eta numeric Rate of loss to follow-up.
+#' @param frac numeric Vector of fractions for information time at each look.
 #' @return A numeric value indicating the sample size per arm.
 #' @examples
-#' Size_surv(m0 = 20, HR0 = 1, HR1 = 0.65, ta = 20, tf = 40, alpha = 0.05, beta = 0.1, K = 3, kappa = 1, eta = 0, frac = c(1 / 2, 1))
+#' size_surv(m0 = 20, hr0 = 1, hr1 = 0.65, ta = 20, tf = 40, alpha = 0.05, beta = 0.1, k = 3, kappa = 1, eta = 0, frac = c(1 / 2, 1))
 #' @import stats
 #' @import mvtnorm
 #' @keywords internal
@@ -21,11 +21,14 @@
 
 
 
-Size_surv <- function(m0, alpha, beta, K, HR0, HR1, ta, tf, kappa, eta, frac) {
+size_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) {
+  K<-k
+  HR0<-hr0
+  HR1<-hr1
   if (K < 2 | K > 5) {
     stop("K should be between 1 and 6.")
   }
-  c <- SCPRT(alpha = alpha, K = K, frac = frac)$critical.value
+  c <- scprt(alpha = alpha, k = K, frac = frac)$critical.value
   hr0 <- HR0 # exp(-delta0)
   hr1 <- HR1 # exp(-delta1)
   lambda0 <- log(2) / m0^kappa

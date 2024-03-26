@@ -36,22 +36,23 @@ score <- function(r0, rk, n, data0, datak) {
 
 #' @title Provides operating characteristics of group sequential MAMS trial for ordinal outcome under null hypothesis
 #' @description Computes FWER and other characteristics for group-sequential MAMS trial for ordinal outcome.
-#' @param alpha Type I error.
-#' @param beta Type II error.
-#' @param K Number of treatment arms.
-#' @param frac Vector of fractions for information time at each look.
-#' @param or0 Odds ratio of ineffective treatment group vs control.
-#' @param or Odds ratio of effective treatment group vs control.
-#' @param nsim Number of simulations.
-#' @param prob Probability of ordinal outcomes in control group.
-#' @param seed Random seed number.
+#' @param alpha numeric Type I error.
+#' @param beta numeric Type II error.
+#' @param p numeric Number of treatment arms.
+#' @param frac numeric vector of fractions for information time at each look.
+#' @param or0 numeric Odds ratio of ineffective treatment group vs control.
+#' @param or numeric Odds ratio of effective treatment group vs control.
+#' @param nsim numeric Number of simulations.
+#' @param prob numeric Probability of ordinal outcomes in control group.
+#' @param seed numeric Random seed number.
 #' @return A list of FWER, stage-wise type I error, average sample size used per arm, stopping probability, probability of futility.
 #' @import stats
 #' @examples
-#' op_fwer_ord(0.05, 0.1, 4, c(0.5, 1), 1.32, 3.06, 15, c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), 13)
+#' op_fwer_ord(alpha=0.05, beta=0.1, p=4, frac=c(0.5, 1), or0=1.32, or=3.06, nsim=15, prob=c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), seed=13)
 #' @export
 
-op_fwer_ord <- function(alpha, beta, K, frac, or0, or, nsim, prob, seed) {
+op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
+  K<-p
   if (K <= 1) {
     stop("K should be greater than 1.")
   }
@@ -59,9 +60,9 @@ op_fwer_ord <- function(alpha, beta, K, frac, or0, or, nsim, prob, seed) {
     stop("The length of frac should be greater than 1.")
   }
   j <- length(frac)
-  bound <- SCPRT(alpha = alpha, K = K, frac = frac)
+  bound <- scprt(alpha = alpha, k = K, frac = frac)
 
-  l <- Size_ord(prob = prob, or = or, or0 = or0, alpha = alpha, beta = beta, K = K)
+  l <- size_ord(prob = prob, or = or, or0 = or0, alpha = alpha, beta = beta, k = K)
   # l<-84
 
   prob1 <- prob

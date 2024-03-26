@@ -1,21 +1,22 @@
 #' @title  Calculates the Sample Size for a Clinical Trial
 #' @description This function calculates the sample size per arm of a clinical trial of ordinal outcome.
-#' @param alpha Type I error.
-#' @param beta Type II error.
-#' @param K Number of treatment arms.
-#' @param prob Probability of ordinal outcomes in control group.
-#' @param or0 Odds ratio of ineffective treatment group vs control.
-#' @param or Odds ratio of effective treatment group vs control.
+#' @param alpha numeric Type I error.
+#' @param beta numeric Type II error.
+#' @param k numeric Number of treatment arms.
+#' @param prob numeric Probability of ordinal outcomes in control group.
+#' @param or0 numeric Odds ratio of ineffective treatment group vs control.
+#' @param or numeric Odds ratio of effective treatment group vs control.
 #' @return A numeric value indicating the sample size per arm.
 #' @examples
-#' Size_ord(prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), or = 3.06, or0 = 1.32, alpha = 0.05, beta = 0.1, K = 4)
+#' size_ord(prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), or = 3.06, or0 = 1.32, alpha = 0.05, beta = 0.1, k = 4)
 #' @import stats
 #' @import mvtnorm
 #' @keywords internal
 #' @noRd
 
-Size_ord <- function(alpha, beta, K, prob, or0, or) {
-  if (length(prob) > 2) {
+size_ord <- function(alpha, beta, k, prob, or0, or) {
+  K<-k
+   if (length(prob) > 2) {
     p0 <- prob
     Q0 <- cumsum(p0)
     Qk <- 1 / (1 + ((1 - Q0) / Q0) / or)
