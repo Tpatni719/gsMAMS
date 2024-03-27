@@ -35,6 +35,7 @@ The stable version of **gsMAMS**, v0.7.1, is available on CRAN:
 
 ``` r
 # install.packages("gsMAMS")
+set.seed(1234)
 library(gsMAMS)
 ```
 
@@ -71,8 +72,8 @@ design_cont(delta0 = 0.178,
 #> 
 #> $`Boundary values`
 #>             Stage 1 Stage 2
-#> Lower bound   0.005   2.061
-#> Upper bound   2.910   2.061
+#> Lower bound   0.006   2.062
+#> Upper bound   2.910   2.062
 ```
 
 The design output shows the cumulative sample size for treatment and
@@ -99,25 +100,25 @@ op_power_cont(alpha = 0.05,
               frac = c(0.5, 1), 
               delta0 = 0.178, 
               delta1 = 0.545, 
-              nsim = 100, 
+              nsim = 10000, 
               seed = 10)
 #> $Power
-#> [1] 0.92
+#> [1] 0.893
 #> 
 #> $`Stagewise Power`
-#> look1 look2 
-#>  0.34  0.58 
+#>  look1  look2 
+#> 0.3126 0.5804 
 #> 
 #> $`Stopping probability under alternative`
-#> look1 look2 
-#>  0.36  0.64 
+#>  look1  look2 
+#> 0.3258 0.6742 
 #> 
 #> $`Probability of futility under alternative`
-#> look1 look2 
-#>  0.00  0.05 
+#>  look1  look2 
+#> 0.0035 0.0821 
 #> 
 #> $`Average sample size used per arm under alternative`
-#> [1] 61.158
+#> [1] 62.652
 ```
 
 Based on the simulation results, the probability of success/power at the
