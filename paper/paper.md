@@ -43,7 +43,22 @@ This package will serve well for clinicians, researchers and statisticians  who 
 # Compuational Aspects
 The computational complexity of this package is very low. The family wise error rate(FWER) is controlled by Dunnett correction, which entails finding the root of an integral of a multivariate normal distribution. The multivariate normal densities are evaluated using the package `mvtnorm`. The package is efficient for any number of treatment arms and stages, but it has a limitation that it is only configured for 10 stages. In practice, a study rarely needs to have more than 10 interim looks planned. To give an example, the computational time of `MAMS` package to obtain stopping boundaries and sample size of a multi-arm trial for continuous outcome with four experimental arms and three stages is around 7 minutes and for four stages is around 4.5 hours. But for `gsMAMS` package with same trial configuration, the computational time to obtain stopping boundaries and sample size for three stages and four stages design is around 0.06 seconds for both the cases.
 The operating characteristics for continuous and ordinal outcomes require less computational effort than the survival outcomes. The computational burden of sample size and sequential conditional probability ratio test(SCPRT) boundary calculation for continuous, ordinal and survival outcomes is minimal because there are only two critical components of algorithm which are the roots of FWER and power i.e., critical value and samples size.    
- 
+The below code shows an example demonstration about the computational efficiency of our package where we are designing a four stage trial for four treatment arms. 
+
+```R
+##MAMS design
+system.time(mams(K=4, J=4, p=NULL, p0=NULL, delta=0.545, delta0=0.178, sd=1,r=1:4, r0=1:4, alpha=0.05, power=0.9, ushape="obf", lfix=0))
+#   user system  elapsed
+#5220.67   5.84  8860.42
+
+##gsMAMS design
+system.time(design_cont(delta0 = 0.178,delta1 = 0.545,alpha = 0.05,beta = 0.1,K=4,frac = c(1:4/4)))
+#  user  system elapsed
+#  0.07    0.00    0.06
+
+``` 
+Based on the results, the elapsed time is very high for the `MAMS` package.
+
 # Application
 In this section, we will demonstrate the use of `gsMAMS` package and provide a separate example for each type of outcome.
 
