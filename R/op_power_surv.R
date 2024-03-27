@@ -17,15 +17,25 @@
 #' @import stats
 #' @importFrom survival survdiff Surv
 #' @examples
-#' op_power_surv(m0=20, alpha=0.05, beta=0.1, p=4, frac=c(1 / 2, 1), hr0=1, hr1=0.74, ta=12, tf=40, nsim=20, kappa=1, eta=0, seed=12)
+#' op_power_surv(m0 = 20,
+#'               alpha = 0.05,
+#'               beta = 0.1,
+#'               p = 4,
+#'               frac = c(1 / 2, 1),
+#'               hr0 = 1,
+#'               hr1 = 0.74,
+#'               ta = 12,
+#'               tf = 40,
+#'               nsim = 20,
+#'               kappa = 1,
+#'               eta = 0,
+#'               seed = 12)
 #' @export
 
 
 
 
 op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa, eta, seed) {
-  HR0<-hr1
-  HR1<-hr1
   K<-p
   if (K <= 1) {
     stop("K should be greater than 1.")
@@ -36,10 +46,6 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
   j <- length(frac)
 
   bound <- scprt(alpha = alpha, k = K, frac = frac)
-
-
-  hr0 <- HR0 # exp(-delta0)
-  hr1 <- HR1 # exp(-delta1)
 
   lambda0 <- log(2) / m0^kappa
 
@@ -65,8 +71,8 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
 
 
 
-  n <- size_surv(m0 = m0, hr0 = HR0, hr1 = HR1, ta = ta, tf = tf, k = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[2]
-  d <- size_surv(m0 = m0, hr0 = HR0, hr1 = HR1, ta = ta, tf = tf, k = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[1]
+  n <- size_surv(m0 = m0, hr0 = hr0, hr1 = hr1, ta = ta, tf = tf, k = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[2]
+  d <- size_surv(m0 = m0, hr0 = hr0, hr1 = hr1, ta = ta, tf = tf, k = K, beta = beta, alpha = alpha, kappa = kappa, eta = eta, frac = frac)[1]
 
   frac <- frac
   d1 <- numeric(length = j)

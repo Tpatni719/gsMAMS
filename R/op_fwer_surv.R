@@ -17,7 +17,19 @@
 #' @import stats
 #' @importFrom survival survdiff Surv
 #' @examples
-#' op_fwer_surv(m0=20, alpha=0.05, beta=0.1, p=4, frac=c(1 / 2, 1), hr0=1, hr1=0.75, nsim=12, ta=40, tf=20, kappa=1, eta=0, seed=12)
+#' op_fwer_surv(m0 = 20,
+#'              alpha = 0.05,
+#'              beta = 0.1,
+#'              p = 4,
+#'              frac = c(1 / 2, 1),
+#'              hr0 = 1,
+#'              hr1 = 0.75,
+#'              nsim = 12,
+#'              ta = 40,
+#'              tf = 20,
+#'              kappa = 1,
+#'              eta = 0,
+#'              seed = 12)
 #' @export
 
 
