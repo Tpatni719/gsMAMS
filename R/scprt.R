@@ -13,14 +13,13 @@
 
 
 scprt <- function(alpha, k, frac) {
-  k<-K
   r <- 1
   J <- length(frac)
-  Sigma <- matrix((1 / (1 + r)), K, K)
+  Sigma <- matrix((1 / (1 + r)), k, k)
   diag(Sigma) <- 1
   if (J >= 10) stop("Limit the maximum number of stages to ten")
   root <- function(c) {
-    int <- mvtnorm::pmvnorm(lower = rep(-Inf, K), upper = rep(c, K), mean = rep(0, K), sigma = Sigma)[1]
+    int <- mvtnorm::pmvnorm(lower = rep(-Inf, k), upper = rep(c, k), mean = rep(0, k), sigma = Sigma)[1]
     alpha - (1 - int)
   }
   c <- round(uniroot(root, lower = 0, upper = 999)$root, 3)

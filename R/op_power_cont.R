@@ -11,7 +11,14 @@
 #' @return A list of power, stage-wise probability of success, average sample size used per arm, stopping probability, probability of futility.
 #' @import stats
 #' @examples
-#' op_power_cont(alpha=0.05,beta= 0.1, p=4, frac=c(1 / 5, 2 / 5, 3 / 5, 4 / 5, 1), delta0=0.178,delta1=0.545, nsim=12, seed=12)
+#' op_power_cont(alpha = 0.05,
+#'               beta = 0.1,
+#'               p = 4,
+#'               frac = c(1 / 5, 2 / 5, 3 / 5, 4 / 5, 1),
+#'               delta0 = 0.178,
+#'               delta1 = 0.545,
+#'               nsim = 12,
+#'               seed = 12)
 #' @export
 
 op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {

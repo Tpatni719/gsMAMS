@@ -47,7 +47,15 @@ score <- function(r0, rk, n, data0, datak) {
 #' @return A list of power, stage-wise probability of success, average sample size used per arm, stopping probability, probability of futility.
 #' @import stats
 #' @examples
-#' op_power_ord(alpha=0.05, beta=0.1, p=4, frac=c(0.5, 1), or0=1.32, or=3.06, nsim=12, prob=c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), seed=13)
+#' op_power_ord(alpha = 0.05,
+#'              beta = 0.1,
+#'              p = 4,
+#'              frac = c(0.5, 1),
+#'              or0 = 1.32,
+#'              or = 3.06,
+#'              nsim = 12,
+#'              prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166),
+#'              seed = 13)
 #' @export
 
 

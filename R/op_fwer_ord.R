@@ -48,7 +48,15 @@ score <- function(r0, rk, n, data0, datak) {
 #' @return A list of FWER, stage-wise type I error, average sample size used per arm, stopping probability, probability of futility.
 #' @import stats
 #' @examples
-#' op_fwer_ord(alpha=0.05, beta=0.1, p=4, frac=c(0.5, 1), or0=1.32, or=3.06, nsim=15, prob=c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), seed=13)
+#' op_fwer_ord(alpha = 0.05,
+#'             beta = 0.1,
+#'             p = 4,
+#'             frac = c(0.5, 1),
+#'             or0 = 1.32,
+#'             or = 3.06,
+#'             nsim = 15,
+#'             prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166),
+#'             seed = 13)
 #' @export
 
 op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {

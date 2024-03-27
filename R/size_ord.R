@@ -15,13 +15,12 @@
 #' @noRd
 
 size_ord <- function(alpha, beta, k, prob, or0, or) {
-  K<-k
    if (length(prob) > 2) {
     p0 <- prob
     Q0 <- cumsum(p0)
     Qk <- 1 / (1 + ((1 - Q0) / Q0) / or)
     pk <- c(Qk[1], diff(Qk, lag = 1))
-    pbar <- (p0 + K * pk) / (K + 1)
+    pbar <- (p0 + k * pk) / (k + 1)
     q <- (1 - sum(pbar^3)) / 3
     sigma <- 1 / sqrt(q)
   }
@@ -33,30 +32,30 @@ size_ord <- function(alpha, beta, k, prob, or0, or) {
     q <- (1 - sum(pbar^3)) / 3
     sigma <- 1 / sqrt(q)
   }
-  delta <- c(log(or), rep(log(or0), K - 1))
-  if (K == 1) {
+  delta <- c(log(or), rep(log(or0), k - 1))
+  if (k == 1) {
     V <- (qnorm(1 - alpha) + qnorm(1 - beta))^2 / log(or)^2
     n <- ceiling(2 * V / q) ## sample size per arm ###
     return(n)
   }
-  if (K >= 2) {
-    Sigma <- matrix(0.5, K, K)
+  if (k >= 2) {
+    Sigma <- matrix(0.5, k, k)
     diag(Sigma) <- 1
     root <- function(c) {
-      alpha - (1 - mvtnorm::pmvnorm(lower = rep(-Inf, K), upper = rep(c, K), mean = rep(0, K), sigma = Sigma)[1])
+      alpha - (1 - mvtnorm::pmvnorm(lower = rep(-Inf, k), upper = rep(c, k), mean = rep(0, k), sigma = Sigma)[1])
     }
     c <- uniroot(root, lower = 0, upper = 999)$root
-    Sigma11 <- Sigma[1:(K - 1), 1:(K - 1)]
-    Sigma12 <- Sigma[1:(K - 1), K]
-    Sigma21 <- Sigma[K, 1:(K - 1)]
-    A <- (-1) * diag(K)
+    Sigma11 <- Sigma[1:(k - 1), 1:(k - 1)]
+    Sigma12 <- Sigma[1:(k - 1), k]
+    Sigma21 <- Sigma[k, 1:(k - 1)]
+    A <- (-1) * diag(k)
     A[, 1] <- 1
     A <- rbind(A[-1, ], A[1, ])
     B <- A %*% Sigma %*% t(A)
     root1 <- function(n) {
       mu <- sqrt(n / (2 * sigma^2)) * delta
       b <- as.numeric(A %*% mu)
-      int <- mvtnorm::pmvnorm(lower = c(rep(0, K - 1), c), upper = rep(Inf, K), mean = b, sigma = B)[1]
+      int <- mvtnorm::pmvnorm(lower = c(rep(0, k - 1), c), upper = rep(Inf, k), mean = b, sigma = B)[1]
       3
       1 - beta - as.double(int)
     }

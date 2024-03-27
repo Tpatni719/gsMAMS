@@ -15,29 +15,28 @@
 
 
 size_cont <- function(delta0, delta1, alpha, beta, k) {
-  K<-k
   r <- 1
-  delta <- c(delta1, rep(delta0, K - 1))
-  if (K == 1) {
+  delta <- c(delta1, rep(delta0, k - 1))
+  if (k == 1) {
     z0 <- qnorm(1 - alpha)
     z1 <- qnorm(1 - beta)
     n <- ceiling((z0 + z1)^2 * (1 + r) / (r * delta^2))
   }
-  if (K >= 2) {
-    Sigma <- matrix((1 / (1 + r)), K, K)
+  if (k >= 2) {
+    Sigma <- matrix((1 / (1 + r)), k, k)
     diag(Sigma) <- 1
     root <- function(c) {
       alpha - (1 - mvtnorm::pmvnorm(
-        lower = rep(-Inf, K), upper = rep(c, K),
-        mean = rep(0, K), sigma = Sigma
+        lower = rep(-Inf, k), upper = rep(c, k),
+        mean = rep(0, k), sigma = Sigma
       )[1])
     }
     c <- uniroot(root, lower = 0, upper = 999)$root
     2
-    Sigma11 <- Sigma[1:(K - 1), 1:(K - 1)]
-    Sigma12 <- Sigma[1:(K - 1), K]
-    Sigma21 <- Sigma[K, 1:(K - 1)]
-    A <- (-1) * diag(K)
+    Sigma11 <- Sigma[1:(k - 1), 1:(k - 1)]
+    Sigma12 <- Sigma[1:(k - 1), k]
+    Sigma21 <- Sigma[k, 1:(k - 1)]
+    A <- (-1) * diag(k)
     A[, 1] <- 1
     A <- rbind(A[-1, ], A[1, ])
     B <- A %*% Sigma %*% t(A)
@@ -45,7 +44,7 @@ size_cont <- function(delta0, delta1, alpha, beta, k) {
       mu <- sqrt(r * n / (1 + r)) * delta
       b <- as.numeric(A %*% mu)
       int <- mvtnorm::pmvnorm(
-        lower = c(rep(0, K - 1), c), upper = rep(Inf, K),
+        lower = c(rep(0, k - 1), c), upper = rep(Inf, k),
         mean = b, sigma = B
       )[1]
       1 - beta - as.double(int)
