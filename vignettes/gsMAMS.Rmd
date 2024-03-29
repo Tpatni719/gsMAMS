@@ -28,7 +28,6 @@ The sample size calculation is based on a one-sided type I error of 5\% and a po
 The design parameters of the trial can be calculated using the design_cont function and the arguments in the function correspond to standardized effect size in ineffective arm(delta0} and effective arm(delta1), type I error(alpha), type II error(beta), total number of treatment arms(K) and the information time (0.5, 1) is denoted by frac argument in the function.
 
 ```{r}
-set.seed(1234)
 design_cont(delta0 = 0.178,delta1 = 0.545,alpha = 0.05,beta = 0.1,k=3,
 frac = c(0.5,1))
 ```
