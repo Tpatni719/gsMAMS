@@ -86,7 +86,7 @@ The operating characteristics of the trial can be generated using the op_power_s
 
 For FWER and Stagewise FWER:
 ```{R}
-op_fwer_surv(m0=20,alpha=0.05,beta=0.1,p=4,frac=c(1/2,1),HR0=1,HR1=0.6703,
+op_fwer_surv(m0=20,alpha=0.05,beta=0.1,p=4,frac=c(1/2,1),hr0=1,hr1=0.6703,
 nsim=10000,ta=40,tf=20,kappa=1,eta=0,seed=12)
 ```
 Based on the simulation results, the type I error is around 0.4\% at first interim analysis and around 4.6\% at the second interim analysis. Therefore, the overall type I error is maintained at 5\%. The stopping probability should be around 1 which is the case here and since this is under null configuration, probability of futility should be around 95\% which holds true in this case. The average duration of trial is 54 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 130.
@@ -96,4 +96,4 @@ For Power and Stagewise Power :
 op_power_surv(m0=20,alpha=0.05,beta=0.1,p=4,frac=c(1/2,1),hr0=1,hr1=.6703,
 nsim=10000,ta=40,tf=20,kappa=1,eta=0,seed=12)             
 ```
-Based on the simulation results, the probability of success/power at the first stage is 32.7\% and at the second stage is around 58.63\%. Therefore, the overall power is around 90\%. The overall stopping probability should be around 1 which is the case here and the probability of futility is around 8.5\% which is less than 10\% type II error because of the same reason as mentioned in the continuous outcome. The average duration of trial is 52 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 115.
+Based on the simulation results, the probability of success/power at the first stage is 32.7\% and at the second stage is around 58.63\%. Therefore, the overall power is around 90\%. The overall stopping probability should be around 1 which is the case here and the probability of futility is around 8.5\% which is less than 10\% type II error because of the same reason as mentioned in the continuous outcome. The average duration of trial is 52 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 115.    
