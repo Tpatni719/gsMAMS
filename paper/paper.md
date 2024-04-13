@@ -1,5 +1,5 @@
 ---
-title: 'gsMAMS: an R package for Desinging Multi-Arm Multi-Stage Clinical Trials'
+title: 'gsMAMS: an R package for Designing Multi-Arm Multi-Stage Clinical Trials'
 tags:
   - R
   - Clinical trial
@@ -40,19 +40,36 @@ This paper introduces the R package `gsMAMS` available at https://cran.r-project
 
 This package will serve well for clinicians, researchers and statisticians  who are involved in designing the phase-II clinical trials with multiple treatment arms because it is easy to use, provides comprehensive information regarding the trial characteristics and provides a substantial efficiency advantage compared to the traditional randomized controlled trial.          
 
-# Compuational Aspects
+# Computational Aspects
 The computational complexity of this package is very low. The family wise error rate(FWER) is controlled by Dunnett correction, which entails finding the root of an integral of a multivariate normal distribution. The multivariate normal densities are evaluated using the package `mvtnorm`(@Genz2009). The package is efficient for any number of treatment arms and stages, but it has a limitation that it is only configured for 10 stages. In practice, a study rarely needs to have more than 10 interim looks planned. To give an example, the computational time of `MAMS` package to obtain stopping boundaries and sample size of a multi-arm trial for continuous outcome with four experimental arms and three stages is approximately  7 minutes and for four stages is approximately  4.5 hours. But for `gsMAMS` package with same trial configuration, the computational time to obtain stopping boundaries and sample size for three stages and four stages design is approximately  0.06 seconds for both the cases. This is approximately 7000-27000 times faster compared to `MAMS` package.
 The operating characteristics for continuous and ordinal outcomes require less computational effort than the survival outcomes. The computational burden of sample size and sequential conditional probability ratio test(SCPRT) boundary calculation for continuous, ordinal and survival outcomes is minimal because there are only two critical components of algorithm which are the roots of FWER and power i.e., critical value and samples size.    
 The below code shows an example demonstration about the computational efficiency of our package where we are designing a four stage trial for four treatment arms and we have used the same equivalent parameters for both the designs. 
 
 ```R
 ##MAMS design
-system.time(mams(K=4, J=4, p=NULL, p0=NULL, delta=0.545, delta0=0.178, sd=1,r=1:4, r0=1:4, alpha=0.05, power=0.9, ushape="obf", lfix=0))
+system.time(mams(K = 4, 
+                 J = 4, 
+                 p = NULL, 
+                 p0 = NULL, 
+                 delta = 0.545, 
+                 delta0 = 0.178, 
+                 sd = 1, 
+                 r = 1:4, 
+                 r0 = 1:4, 
+                 alpha = 0.05, 
+                 power = 0.9, 
+                 ushape = "obf", 
+                 lfix = 0))
 #   user system  elapsed
 #5220.67   5.84  8860.42
 
 ##gsMAMS design
-system.time(design_cont(delta0 = 0.178,delta1 = 0.545,alpha = 0.05,beta = 0.1,k=4,frac = c(1:4/4)))
+system.time(design_cont(delta0 = 0.178, 
+                        delta1 = 0.545, 
+                        alpha = 0.05, 
+                        beta = 0.1, 
+                        k = 4, 
+                        frac = c(1:4 / 4)))
 #  user  system elapsed
 #  0.07    0.00    0.06
 
@@ -78,7 +95,12 @@ library(gsMAMS)
 
 ```R
 set.seed(1234)
-design_cont(delta0 = 0.178, delta1 = 0.545, alpha = 0.05, beta = 0.1, k = 3, frac = c(0.5, 1))
+design_cont(delta0 = 0.178, 
+            delta1 = 0.545, 
+            alpha = 0.05, 
+            beta = 0.1, 
+            k = 3, 
+            frac = c(0.5, 1))
 
 ## $`Sample size`
 ##                                            Stage 1 Stage 2
@@ -104,7 +126,14 @@ For FWER and Stagewise FWER:
 The operating characteristics of the trial can be generated using the `op_power_cont()` and `op_fwer_cont()` functions for power under alternative hypothesis and FWER under global null hypothesis respectively. Most of the arguments in the function are similar to `design_cont()`  function with the exception of number of simulations(`nsim`) and seed number(`seed`).
 
 ```R
-op_fwer_cont(alpha = 0.05, beta = 0.1, p = 3, frac = c(0.5, 1), delta0 = 0.178, delta1 = 0.545, nsim = 10000, seed = 10)
+op_fwer_cont(alpha = 0.05, 
+             beta = 0.1, 
+             p = 3, 
+             frac = c(0.5, 1), 
+             delta0 = 0.178, 
+             delta1 = 0.545, 
+             nsim = 10000, 
+             seed = 10)
 
 ## $FWER
 ## [1] 0.05
@@ -131,7 +160,14 @@ Based on the simulation results, the type I error at the first interim analysis 
 
 For Power and Stagewise Power:
 ```R
-op_power_cont(alpha = 0.05, beta = 0.1, p = 3, frac = c(0.5, 1), delta0 = 0.178, delta1 = 0.545, nsim = 10000, seed = 10)
+op_power_cont(alpha = 0.05, 
+              beta = 0.1, 
+              p = 3, 
+              frac = c(0.5, 1), 
+              delta0 = 0.178, 
+              delta1 = 0.545, 
+              nsim = 10000, 
+              seed = 10)
 
 ## $Power
 ## [1] 0.893
@@ -160,7 +196,13 @@ For ordinal outcome, we will consider ASCLEPIOS trial, a phase II trial for pati
 The sample size calculation is based on a one-sided FWER of 5\% and a power of 90\%. Based on the trial characteristics, we will design the trial for a three-stage design. The design parameters for a five-arm (k = 4) trial can be calculated using `design_ord()` function and the arguments in the function correspond to probability of outcomes in control group(`prob`), odds ratio of ineffective treatment group vs control(`or0`), odds ratio of effective treatment group vs control(`or`) and the remaining arguments are similar to the `design_cont()` function for continuous outcome.
 
 ```R
-design_ord(prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), or = 3.06, or0 = 1.32, alpha = 0.05, beta = 0.1, k = 4, frac = c(1/3, 2/3, 1))
+design_ord(prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), 
+           or = 3.06, 
+           or0 = 1.32, 
+           alpha = 0.05, 
+           beta = 0.1, 
+           k = 4, 
+           frac = c(1/3, 2/3, 1))
 
 ## $`Sample size`
 ##                                            Stage 1 Stage 2 Stage 3
@@ -187,7 +229,17 @@ For survival outcome, we will consider a MAMS trial with five arms (four treatme
 The design parameters for a two-stage design can be calculated using the `design_surv()` function and the arguments in the function correspond to median survival time of the control group(`m0`), hazard ratio of ineffective treatment vs control(`hr0`), hazard ratio of effective treatment vs control(`hr1`), accrual time(`ta`), follow-up time(`tf`), shape parameter of Weibull distribution(`kappa`), rate of loss to follow-up(`eta`)(assumed loss to follow-up follows an exponential distribution with rate parameter eta). 
 
 ```R
-design_surv(m0 = 20, hr0 = 1, hr1 = 0.67032, ta = 40, tf = 20, alpha = 0.05, beta = 0.1, k = 4, kappa = 1, eta = 0, frac = c(0.5, 1))
+design_surv(m0 = 20, 
+            hr0 = 1, 
+            hr1 = 0.67032, 
+            ta = 40, 
+            tf = 20, 
+            alpha = 0.05, 
+            beta = 0.1, 
+            k = 4, 
+            kappa = 1, 
+            eta = 0, 
+            frac = c(0.5, 1))
 
 ## $`Sample size`
 ##                                                              Stage 1 Stage 2
@@ -213,7 +265,19 @@ The operating characteristics of the trial can be generated using the `op_power_
 
 For FWER and Stagewise FWER:
 ```R
-op_fwer_surv(m0 = 20, alpha = 0.05, beta = 0.1, p = 4, frac = c(1/2, 1), hr0 = 1, hr1 = 0.6703, nsim = 10000, ta = 40, tf = 20, kappa = 1, eta = 0, seed = 12)
+op_fwer_surv(m0 = 20, 
+             alpha = 0.05, 
+             beta = 0.1, 
+             p = 4, 
+             frac = c(1/2, 1), 
+             hr0 = 1, 
+             hr1 = 0.6703, 
+             nsim = 10000, 
+             ta = 40, 
+             tf = 20, 
+             kappa = 1, 
+             eta = 0, 
+             seed = 12)
 
 ## $FWER
 ## [1] 0.05
@@ -241,7 +305,19 @@ Based on the simulation results, the type I error is approximately  0.4\% at fir
 
 For Power and Stagewise Power :
 ```R
-op_power_surv(m0 = 20, alpha = 0.05, beta = 0.1, p = 4, frac = c(1/2, 1), hr0 = 1, hr1 = 0.6703, nsim = 10000, ta = 40, tf = 20, kappa = 1, eta = 0, seed = 12)
+op_power_surv(m0 = 20, 
+              alpha = 0.05, 
+              beta = 0.1, 
+              p = 4, 
+              frac = c(1/2, 1), 
+              hr0 = 1, 
+              hr1 = 0.6703, 
+              nsim = 10000, 
+              ta = 40, 
+              tf = 20, 
+              kappa = 1, 
+              eta = 0, 
+              seed = 12)
 
 ## $Power
 ## [1] 0.913
