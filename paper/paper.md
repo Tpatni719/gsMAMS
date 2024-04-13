@@ -182,7 +182,7 @@ Based on the design parameters, the first interim analysis can be conducted afte
 The operating characteristics can be generated using the functions `op_fwer_ord()` and `op_power_ord()` which are similar to that of continuous outcome.
 
 ## Survival Outcome
-For survival outcome, we will consider a MAMS trial with five arms (four treatment arms and a control arm, k=4) and two interim looks with balanced information time (0.5, 1). The null hazards ratio is 1 and the alternative hazards ratio is 0.67. The median survival time of control group is 20 months and the survival distribution is exponential without loss to follow-up. The sample size calculation is based on a one-sided type I error of 5\% and a power of 90\%. 
+For survival outcome, we will consider a MAMS trial with five arms (four treatment arms and a control arm, `k`=4) and two interim looks with balanced information time `frac`=c(0.5, 1). The null hazards ratio is (`hr0`)1 and the alternative hazards ratio is (`hr1`)0.67. The median survival time of control group is 20 months and the survival distribution is exponential without loss to follow-up. The sample size calculation is based on a one-sided type I error of 5\% and a power of 90\%. 
 
 The design parameters for a two-stage design can be calculated using the `design_surv()` function and the arguments in the function correspond to median survival time of the control group(`m0`), hazard ratio of ineffective treatment vs control(`hr0`), hazard ratio of effective treatment vs control(`hr1`), accrual time(`ta`), follow-up time(`tf`), shape parameter of Weibull distribution(`kappa`), rate of loss to follow-up(`eta`)(assumed loss to follow-up follows an exponential distribution with rate parameter eta). 
 
