@@ -8,7 +8,6 @@
 #' @param delta1 numeric Standardized effect size in effective arm.
 #' @param nsim numeric Number of simulations.
 #' @param seed numeric Random seed number.
-#' @import stats
 #' @return A list of FWER, stage-wise type I error, average sample size used per arm, stopping probability, probability of futility.
 #' @examples
 #' op_fwer_cont(alpha=0.05, beta=0.1, p=2, frac=c(0.5, 1), delta0=0.178, delta1=0.545, nsim=15,seed=1)
@@ -43,7 +42,7 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
   asn <- 0
   frac <- frac
   n <- numeric(length = j)
-  for (i in 1:j) {
+  for (i in seq_len(j)) {
     n[i] <- ceiling(l * frac[i])
   }
 
@@ -52,12 +51,12 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
   # b<-cbind.data.frame(c(3.126,3.126,3.126,3.126),c(3.092,3.092,3.092,3.092),c(2.161,2.161,2.161,2.161))
 
   a <- data.frame()
-  for (i in 1:K) {
+  for (i in seq_len(K)) {
     a <- rbind.data.frame(a, bound$lshape)
   }
 
   b <- data.frame()
-  for (i in 1:K) {
+  for (i in seq_len(K)) {
     b <- rbind.data.frame(b, bound$ushape)
   }
 
@@ -65,14 +64,14 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
   # print(a)
   # print(b)
   set.seed(seed)
-  for (e in 1:nsim) {
+  for (e in seq_len(nsim)) {
     m <- list()
 
-    m[[1]] <- rnorm(l, mean = mu0, sd = 1)
-    m[[2]] <- rnorm(l, mean = mu1, sd = 1)
+    m[[1]] <- stats::rnorm(l, mean = mu0, sd = 1)
+    m[[2]] <- stats::rnorm(l, mean = mu1, sd = 1)
 
     for (i in 3:(K + 1)) {
-      m[[i]] <- rnorm(l, mean = mu4, sd = 1)
+      m[[i]] <- stats::rnorm(l, mean = mu4, sd = 1)
     }
     ## l sample size per arm
     # j<-j

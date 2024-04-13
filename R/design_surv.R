@@ -25,7 +25,6 @@
 #'             eta = 0,
 #'             frac = c(1 / 2, 1))
 
-#' @import stats
 #' @export
 
 design_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) {

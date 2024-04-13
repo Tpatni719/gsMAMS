@@ -7,7 +7,6 @@
 #' @param group Factor vector indicating the group membership.
 #' @return Z test statistic.
 #' @keywords internal
-#' @import stats
 #' @noRd
 #' @examples
 #' logranktest(time = time, event = event, group = group)
@@ -15,7 +14,7 @@ logranktest <- function(time, event, group) {
   n <- length(time)
   # ng <- table(group)
   group <- factor(group)
-  Ag <- aggregate(event,
+  Ag <- stats::aggregate(event,
     by = list(time = time, group = group),
     FUN = sum, drop = FALSE
   )

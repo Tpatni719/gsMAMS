@@ -7,11 +7,11 @@ score <- function(r0, rk, n, data0, datak) {
   if (a > 2) {
     for (u in 1:a) {
       if (u == 1) {
-        temp <- temp + datak[u] * (sum(data0[u + 1:a], na.rm = T))
+        temp <- temp + datak[u] * (sum(data0[u + 1:a], na.rm = TRUE))
       } else if (u == a) {
-        temp <- temp + datak[u] * (0 - sum(data0[1:u - 1], na.rm = T))
+        temp <- temp + datak[u] * (0 - sum(data0[1:u - 1], na.rm = TRUE))
       } else {
-        temp <- temp + datak[u] * (sum(data0[u + 1:a], na.rm = T) - sum(data0[1:u - 1], na.rm = T))
+        temp <- temp + datak[u] * (sum(data0[u + 1:a], na.rm = TRUE) - sum(data0[1:u - 1], na.rm = TRUE))
       }
 
       temp2 <- temp2 + ((datak[u] + data0[u]) / (sum(datak) + sum(data0)))^3
@@ -45,7 +45,6 @@ score <- function(r0, rk, n, data0, datak) {
 #' @param prob numeric Probability of ordinal outcomes in control group.
 #' @param seed numeric Random seed number.
 #' @return A list of power, stage-wise probability of success, average sample size used per arm, stopping probability, probability of futility.
-#' @import stats
 #' @examples
 #' op_power_ord(alpha = 0.05,
 #'              beta = 0.1,
@@ -115,13 +114,13 @@ op_power_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
     group <- matrix(NA, 2, j)
     for (i in 1:(K + 1)) {
       if (i == 1) {
-        group <- rmultinom(j, size = n[1], prob = prob) # control group
+        group <- stats::rmultinom(j, size = n[1], prob = prob) # control group
         mySum <- t(apply(group, 1, cumsum))
       } else if (i == 2) {
-        group <- rmultinom(j, size = n[1], prob = prob1) # group  1
+        group <- stats::rmultinom(j, size = n[1], prob = prob1) # group  1
         mySum <- t(apply(group, 1, cumsum))
       } else {
-        group <- rmultinom(j, size = n[1], prob = prob2) # group  2 to K
+        group <- stats::rmultinom(j, size = n[1], prob = prob2) # group  2 to K
         mySum <- t(apply(group, 1, cumsum))
       }
       datagen[[i]] <- mySum

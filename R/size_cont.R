@@ -8,8 +8,6 @@
 #' @return A numeric value indicating the sample size per arm.
 #' @examples
 #' size_cont(delta0 = 0.178, delta1 = 0.545, alpha = 0.05, beta = 0.1, k = 4)
-#' @import stats
-#' @import mvtnorm
 #' @keywords internal
 #' @noRd
 
@@ -18,8 +16,8 @@ size_cont <- function(delta0, delta1, alpha, beta, k) {
   r <- 1
   delta <- c(delta1, rep(delta0, k - 1))
   if (k == 1) {
-    z0 <- qnorm(1 - alpha)
-    z1 <- qnorm(1 - beta)
+    z0 <- stats::qnorm(1 - alpha)
+    z1 <- stats::qnorm(1 - beta)
     n <- ceiling((z0 + z1)^2 * (1 + r) / (r * delta^2))
   }
   if (k >= 2) {
@@ -31,7 +29,7 @@ size_cont <- function(delta0, delta1, alpha, beta, k) {
         mean = rep(0, k), sigma = Sigma
       )[1])
     }
-    c <- uniroot(root, lower = 0, upper = 999)$root
+    c <- stats::uniroot(root, lower = 0, upper = 999)$root
     2
     Sigma11 <- Sigma[1:(k - 1), 1:(k - 1)]
     Sigma12 <- Sigma[1:(k - 1), k]
@@ -49,7 +47,7 @@ size_cont <- function(delta0, delta1, alpha, beta, k) {
       )[1]
       1 - beta - as.double(int)
     }
-    n <- ceiling(uniroot(root1, lower = 1, upper = 999)$root)
+    n <- ceiling(stats::uniroot(root1, lower = 1, upper = 999)$root)
   }
   return(n)
 }

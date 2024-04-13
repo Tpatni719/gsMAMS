@@ -9,7 +9,6 @@
 #' @return List of cumulative sample size for each stage of treatment and control groups along with maximum total sample size of the trial. It also provides efficacy and futility boundaries of the trial.
 #' @examples
 #' design_cont(delta0 = 0.178, delta1 = 0.545, alpha = 0.05, beta = 0.1, k = 4, frac = c(1 / 2, 1))
-#' @import stats
 #' @export
 
 

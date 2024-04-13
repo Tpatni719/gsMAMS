@@ -9,7 +9,6 @@
 #' @param nsim numeric Number of simulations.
 #' @param seed numeric Random seed number.
 #' @return A list of power, stage-wise probability of success, average sample size used per arm, stopping probability, probability of futility.
-#' @import stats
 #' @examples
 #' op_power_cont(alpha = 0.05,
 #'               beta = 0.1,
@@ -69,11 +68,11 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
   for (e in 1:nsim) {
     m <- list()
 
-    m[[1]] <- rnorm(l, mean = mu0, sd = 1)
-    m[[2]] <- rnorm(l, mean = mu1, sd = 1)
+    m[[1]] <- stats::rnorm(l, mean = mu0, sd = 1)
+    m[[2]] <- stats::rnorm(l, mean = mu1, sd = 1)
 
     for (i in 3:(K + 1)) {
-      m[[i]] <- rnorm(l, mean = mu4, sd = 1)
+      m[[i]] <- stats::rnorm(l, mean = mu4, sd = 1)
     }
     ## l sample size per arm
     # j<-j

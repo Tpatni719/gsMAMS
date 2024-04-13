@@ -14,7 +14,6 @@
 #' @param eta numeric  Rate of loss to follow-up.
 #' @param seed numeric Random seed number.
 #' @return A list of power, stage-wise probability of success, stopping probability, probability of futility, average number of events happened per arm, average duration of trial.
-#' @import stats
 #' @importFrom survival survdiff Surv
 #' @examples
 #' op_power_surv(m0 = 20,
@@ -115,10 +114,10 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
     # ASN=0
     datagen <- NULL
     for (i in 1:(K + 1)) {
-      w <- rweibull(n, kappa, scale[i])
-      u <- runif(n, 0, ta) ## generate accrual time
+      w <- stats::rweibull(n, kappa, scale[i])
+      u <- stats::runif(n, 0, ta) ## generate accrual time
       if (eta != 0) {
-        g <- rexp(n, rate = eta)
+        g <- stats::rexp(n, rate = eta)
       }
       if (eta == 0) {
         g <- tau - u
@@ -187,7 +186,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
           stagedsizeC[k, h] <- nrow(data_compare[data_compare$group == 0 & data_compare$event == 1, ])
         }
 
-        temp <- survdiff(Surv(time, event) ~ group, data = data_compare)
+        temp <- survival::survdiff(survival::Surv(time, event) ~ group, data = data_compare)
         z[k, h] <- sign(temp$obs[1] - temp$exp[1]) * sqrt(temp$chisq)
         # logranktest(data_compare$time, data_compare$event,data_compare$group)
       }

@@ -14,8 +14,6 @@
 #' @param eta numeric  Rate of loss to follow-up.
 #' @param seed numeric Random seed number.
 #' @return A list of FWER, stage-wise type I error, stopping probability, probability of futility, average number of events happened per arm, average duration of trial.
-#' @import stats
-#' @importFrom survival survdiff Surv
 #' @examples
 #' op_fwer_surv(m0 = 20,
 #'              alpha = 0.05,
@@ -124,10 +122,10 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
     # ASN=0
     datagen <- NULL
     for (i in 1:(K + 1)) {
-      w <- rweibull(n, kappa, scale[i])
-      u <- runif(n, 0, ta) ## generate accrual time
+      w <- stats::rweibull(n, kappa, scale[i])
+      u <- stats::runif(n, 0, ta) ## generate accrual time
       if (eta != 0) {
-        g <- rexp(n, rate = eta)
+        g <- stats::rexp(n, rate = eta)
       }
       if (eta == 0) {
         g <- tau - u
@@ -199,7 +197,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
         # print(head(data_compare))
         # print(head(data_compare))
         # test_result=logranktest(data_compare$time, data_compare$event,data_compare$group)
-        temp <- survdiff(Surv(time, event) ~ group, data = data_compare)
+        temp <- survival::survdiff(survival::Surv(time, event) ~ group, data = data_compare)
         z[k, h] <- sign(temp$obs[1] - temp$exp[1]) * sqrt(temp$chisq)
         # logranktest(data_compare$time, data_compare$event,data_compare$group)
       }

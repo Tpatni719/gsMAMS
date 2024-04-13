@@ -14,8 +14,6 @@
 #' @return A numeric value indicating the sample size per arm.
 #' @examples
 #' size_surv(m0 = 20, hr0 = 1, hr1 = 0.65, ta = 20, tf = 40, alpha = 0.05, beta = 0.1, k = 3, kappa = 1, eta = 0, frac = c(1 / 2, 1))
-#' @import stats
-#' @import mvtnorm
 #' @keywords internal
 #' @noRd
 
@@ -428,86 +426,86 @@ size_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) {
 
 
   if (k == 2) {
-    P <- (integrate(g0, 0, tau)$value + integrate(g1, 0, tau)$value + integrate(g2, 0, tau)$value) / (k + 1)
+    P <- (stats::integrate(g0, 0, tau)$value + stats::integrate(g1, 0, tau)$value + stats::integrate(g2, 0, tau)$value) / (k + 1)
   } else if (k == 3) {
-    P <- (integrate(g0, 0, tau)$value + integrate(g1, 0, tau)$value + integrate(g2, 0, tau)$value +
-      integrate(g3, 0, tau)$value) / (k + 1)
+    P <- (stats::integrate(g0, 0, tau)$value + stats::integrate(g1, 0, tau)$value + stats::integrate(g2, 0, tau)$value +
+            stats::integrate(g3, 0, tau)$value) / (k + 1)
   } else if (k == 4) {
-    P <- (integrate(g0, 0, tau)$value + integrate(g1, 0, tau)$value + integrate(g2, 0, tau)$value +
-      integrate(g3, 0, tau)$value + integrate(g4, 0, tau)$value) / (k + 1)
+    P <- (stats::integrate(g0, 0, tau)$value + stats::integrate(g1, 0, tau)$value + stats::integrate(g2, 0, tau)$value +
+            stats::integrate(g3, 0, tau)$value + stats::integrate(g4, 0, tau)$value) / (k + 1)
   } else if (k == 5) {
-    P <- (integrate(g0, 0, tau)$value + integrate(g1, 0, tau)$value + integrate(g2, 0, tau)$value +
-      integrate(g3, 0, tau)$value + integrate(g4, 0, tau)$value + integrate(g5, 0, tau)$value) / (k + 1)
+    P <- (stats::integrate(g0, 0, tau)$value + stats::integrate(g1, 0, tau)$value + stats::integrate(g2, 0, tau)$value +
+            stats::integrate(g3, 0, tau)$value + stats::integrate(g4, 0, tau)$value + stats::integrate(g5, 0, tau)$value) / (k + 1)
   }
 
 
   if (k == 2) {
-    mu1 <- omega1 * omega0 * integrate(f1, 0, tau)$value
-    mu2 <- omega2 * omega0 * integrate(f2, 0, tau)$value
+    mu1 <- omega1 * omega0 * stats::integrate(f1, 0, tau)$value
+    mu2 <- omega2 * omega0 * stats::integrate(f2, 0, tau)$value
   } else if (k == 3) {
-    mu1 <- omega1 * omega0 * integrate(f1, 0, tau)$value
-    mu2 <- omega2 * omega0 * integrate(f2, 0, tau)$value
-    mu3 <- omega3 * omega0 * integrate(f3, 0, tau)$value
+    mu1 <- omega1 * omega0 * stats::integrate(f1, 0, tau)$value
+    mu2 <- omega2 * omega0 * stats::integrate(f2, 0, tau)$value
+    mu3 <- omega3 * omega0 * stats::integrate(f3, 0, tau)$value
   } else if (k == 4) {
-    mu1 <- omega1 * omega0 * integrate(f1, 0, tau)$value
-    mu2 <- omega2 * omega0 * integrate(f2, 0, tau)$value
-    mu3 <- omega3 * omega0 * integrate(f3, 0, tau)$value
-    mu4 <- omega4 * omega0 * integrate(f4, 0, tau)$value
+    mu1 <- omega1 * omega0 * stats::integrate(f1, 0, tau)$value
+    mu2 <- omega2 * omega0 * stats::integrate(f2, 0, tau)$value
+    mu3 <- omega3 * omega0 * stats::integrate(f3, 0, tau)$value
+    mu4 <- omega4 * omega0 * stats::integrate(f4, 0, tau)$value
   } else if (k == 5) {
-    mu1 <- omega1 * omega0 * integrate(f1, 0, tau)$value
-    mu2 <- omega2 * omega0 * integrate(f2, 0, tau)$value
-    mu3 <- omega3 * omega0 * integrate(f3, 0, tau)$value
-    mu4 <- omega4 * omega0 * integrate(f4, 0, tau)$value
-    mu5 <- omega5 * omega0 * integrate(f5, 0, tau)$value
+    mu1 <- omega1 * omega0 * stats::integrate(f1, 0, tau)$value
+    mu2 <- omega2 * omega0 * stats::integrate(f2, 0, tau)$value
+    mu3 <- omega3 * omega0 * stats::integrate(f3, 0, tau)$value
+    mu4 <- omega4 * omega0 * stats::integrate(f4, 0, tau)$value
+    mu5 <- omega5 * omega0 * stats::integrate(f5, 0, tau)$value
   }
 
 
   if (k == 2) {
-    sig11 <- omega1 * omega0 * integrate(V1, 0, tau)$value
-    sig22 <- omega2 * omega0 * integrate(V2, 0, tau)$value
+    sig11 <- omega1 * omega0 * stats::integrate(V1, 0, tau)$value
+    sig22 <- omega2 * omega0 * stats::integrate(V2, 0, tau)$value
   } else if (k == 3) {
-    sig11 <- omega1 * omega0 * integrate(V1, 0, tau)$value
-    sig22 <- omega2 * omega0 * integrate(V2, 0, tau)$value
-    sig33 <- omega3 * omega0 * integrate(V3, 0, tau)$value
+    sig11 <- omega1 * omega0 * stats::integrate(V1, 0, tau)$value
+    sig22 <- omega2 * omega0 * stats::integrate(V2, 0, tau)$value
+    sig33 <- omega3 * omega0 * stats::integrate(V3, 0, tau)$value
   } else if (k == 4) {
-    sig11 <- omega1 * omega0 * integrate(V1, 0, tau)$value
-    sig22 <- omega2 * omega0 * integrate(V2, 0, tau)$value
-    sig33 <- omega3 * omega0 * integrate(V3, 0, tau)$value
-    sig44 <- omega4 * omega0 * integrate(V4, 0, tau)$value
+    sig11 <- omega1 * omega0 * stats::integrate(V1, 0, tau)$value
+    sig22 <- omega2 * omega0 * stats::integrate(V2, 0, tau)$value
+    sig33 <- omega3 * omega0 * stats::integrate(V3, 0, tau)$value
+    sig44 <- omega4 * omega0 * stats::integrate(V4, 0, tau)$value
   } else if (k == 5) {
-    sig11 <- omega1 * omega0 * integrate(V1, 0, tau)$value
-    sig22 <- omega2 * omega0 * integrate(V2, 0, tau)$value
-    sig33 <- omega3 * omega0 * integrate(V3, 0, tau)$value
-    sig44 <- omega4 * omega0 * integrate(V4, 0, tau)$value
-    sig55 <- omega5 * omega0 * integrate(V5, 0, tau)$value
+    sig11 <- omega1 * omega0 * stats::integrate(V1, 0, tau)$value
+    sig22 <- omega2 * omega0 * stats::integrate(V2, 0, tau)$value
+    sig33 <- omega3 * omega0 * stats::integrate(V3, 0, tau)$value
+    sig44 <- omega4 * omega0 * stats::integrate(V4, 0, tau)$value
+    sig55 <- omega5 * omega0 * stats::integrate(V5, 0, tau)$value
   }
 
 
 
   if (k == 2) {
-    sig12 <- omega1 * omega2 * omega0 * integrate(V12, 0, tau)$value
+    sig12 <- omega1 * omega2 * omega0 * stats::integrate(V12, 0, tau)$value
   } else if (k == 3) {
-    sig12 <- omega1 * omega2 * omega0 * integrate(V12, 0, tau)$value
-    sig13 <- omega1 * omega3 * omega0 * integrate(V13, 0, tau)$value
-    sig23 <- omega2 * omega3 * omega0 * integrate(V23, 0, tau)$value
+    sig12 <- omega1 * omega2 * omega0 * stats::integrate(V12, 0, tau)$value
+    sig13 <- omega1 * omega3 * omega0 * stats::integrate(V13, 0, tau)$value
+    sig23 <- omega2 * omega3 * omega0 * stats::integrate(V23, 0, tau)$value
   } else if (k == 4) {
-    sig12 <- omega1 * omega2 * omega0 * integrate(V12, 0, tau)$value
-    sig13 <- omega1 * omega3 * omega0 * integrate(V13, 0, tau)$value
-    sig14 <- omega1 * omega4 * omega0 * integrate(V14, 0, tau)$value
-    sig23 <- omega2 * omega3 * omega0 * integrate(V23, 0, tau)$value
-    sig24 <- omega2 * omega4 * omega0 * integrate(V24, 0, tau)$value
-    sig34 <- omega3 * omega4 * omega0 * integrate(V34, 0, tau)$value
+    sig12 <- omega1 * omega2 * omega0 * stats::integrate(V12, 0, tau)$value
+    sig13 <- omega1 * omega3 * omega0 * stats::integrate(V13, 0, tau)$value
+    sig14 <- omega1 * omega4 * omega0 * stats::integrate(V14, 0, tau)$value
+    sig23 <- omega2 * omega3 * omega0 * stats::integrate(V23, 0, tau)$value
+    sig24 <- omega2 * omega4 * omega0 * stats::integrate(V24, 0, tau)$value
+    sig34 <- omega3 * omega4 * omega0 * stats::integrate(V34, 0, tau)$value
   } else if (k == 5) {
-    sig12 <- omega1 * omega2 * omega0 * integrate(V12, 0, tau)$value
-    sig13 <- omega1 * omega3 * omega0 * integrate(V13, 0, tau)$value
-    sig14 <- omega1 * omega4 * omega0 * integrate(V14, 0, tau)$value
-    sig15 <- omega1 * omega5 * omega0 * integrate(V15, 0, tau)$value
-    sig23 <- omega2 * omega3 * omega0 * integrate(V23, 0, tau)$value
-    sig24 <- omega2 * omega4 * omega0 * integrate(V24, 0, tau)$value
-    sig25 <- omega2 * omega5 * omega0 * integrate(V25, 0, tau)$value
-    sig34 <- omega3 * omega4 * omega0 * integrate(V34, 0, tau)$value
-    sig35 <- omega3 * omega5 * omega0 * integrate(V35, 0, tau)$value
-    sig45 <- omega4 * omega5 * omega0 * integrate(V45, 0, tau)$value
+    sig12 <- omega1 * omega2 * omega0 * stats::integrate(V12, 0, tau)$value
+    sig13 <- omega1 * omega3 * omega0 * stats::integrate(V13, 0, tau)$value
+    sig14 <- omega1 * omega4 * omega0 * stats::integrate(V14, 0, tau)$value
+    sig15 <- omega1 * omega5 * omega0 * stats::integrate(V15, 0, tau)$value
+    sig23 <- omega2 * omega3 * omega0 * stats::integrate(V23, 0, tau)$value
+    sig24 <- omega2 * omega4 * omega0 * stats::integrate(V24, 0, tau)$value
+    sig25 <- omega2 * omega5 * omega0 * stats::integrate(V25, 0, tau)$value
+    sig34 <- omega3 * omega4 * omega0 * stats::integrate(V34, 0, tau)$value
+    sig35 <- omega3 * omega5 * omega0 * stats::integrate(V35, 0, tau)$value
+    sig45 <- omega4 * omega5 * omega0 * stats::integrate(V45, 0, tau)$value
   }
 
 
@@ -599,10 +597,10 @@ size_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) {
 
   root <- function(n) {
     b <- as.numeric(sqrt(n) * (A %*% mu))
-    int <- pmvnorm(lower = c(rep(0, k - 1), c), upper = rep(Inf, k), mean = b, sigma = B)[1]
+    int <- mvtnorm::pmvnorm(lower = c(rep(0, k - 1), c), upper = rep(Inf, k), mean = b, sigma = B)[1]
     1 - beta - as.double(int)
   }
-  n <- uniroot(root, lower = 1, upper = 99999)$root
+  n <- stats::uniroot(root, lower = 1, upper = 99999)$root
   e <- ceiling(n * P)
   return(c(ceiling(e / (k + 1)), ceiling(n / (k + 1))))
 }

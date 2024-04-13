@@ -12,11 +12,10 @@
 #' design_ord(alpha = 0.05,
 #'            beta = 0.1,
 #'            k = 4,
-#'            prob=c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166),
+#'            prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166),
 #'            or = 3.06,
 #'            or0 = 1.32,
-#'            frac=c(1 / 2, 1))
-#' @import stats
+#'            frac = c(1 / 2, 1))
 #' @export
 
 design_ord <- function(alpha, beta, k, prob, or0, or, frac) {

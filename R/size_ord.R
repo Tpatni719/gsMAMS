@@ -9,8 +9,6 @@
 #' @return A numeric value indicating the sample size per arm.
 #' @examples
 #' size_ord(prob = c(0.075, 0.182, 0.319, 0.243, 0.015, 0.166), or = 3.06, or0 = 1.32, alpha = 0.05, beta = 0.1, k = 4)
-#' @import stats
-#' @import mvtnorm
 #' @keywords internal
 #' @noRd
 
@@ -34,7 +32,7 @@ size_ord <- function(alpha, beta, k, prob, or0, or) {
   }
   delta <- c(log(or), rep(log(or0), k - 1))
   if (k == 1) {
-    V <- (qnorm(1 - alpha) + qnorm(1 - beta))^2 / log(or)^2
+    V <- (stats::qnorm(1 - alpha) + stats::qnorm(1 - beta))^2 / log(or)^2
     n <- ceiling(2 * V / q) ## sample size per arm ###
     return(n)
   }
@@ -59,7 +57,7 @@ size_ord <- function(alpha, beta, k, prob, or0, or) {
       3
       1 - beta - as.double(int)
     }
-    n <- ceiling(uniroot(root1, lower = 1, upper = 999)$root)
+    n <- ceiling(stats::uniroot(root1, lower = 1, upper = 999)$root)
   }
   return(n)
 }
