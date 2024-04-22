@@ -228,7 +228,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
 
           if (i == j) {
             g[1, q] <- 0
-            for (o in 1:length(sk)) {
+            for (o in seq_len(length(sk))) {
               g[1, q] <- g[1, q] + prod(p[sk[[o]]])
               mp[o, q] <- prod(v[sk[[o]]])
             }
@@ -255,7 +255,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
 
         if (i == j) {
           g[1, q] <- 0
-          for (o in 1:length(sk)) {
+          for (o in seq_len(length(sk))) {
             g[1, q] <- g[1, q] + prod(p[sk[[o]]])
             mp[o, q] <- prod(v[sk[[o]]])
           }

@@ -14,7 +14,6 @@
 #' @param eta numeric  Rate of loss to follow-up.
 #' @param seed numeric Random seed number.
 #' @return A list of power, stage-wise probability of success, stopping probability, probability of futility, average number of events happened per arm, average duration of trial.
-#' @importFrom survival survdiff Surv
 #' @examples
 #' op_power_surv(m0 = 20,
 #'               alpha = 0.05,
@@ -225,7 +224,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
           p[k[i - 1] + 2] <- z[1, (i)] > z[q, (i)]
 
           g[i, q - 1] <- 0
-          for (o in 1:length(sk)) {
+          for (o in seq_len(length(sk))) {
             g[i, q - 1] <- g[i, q - 1] + prod(p[sk[[o]]])
           }
           next
@@ -244,7 +243,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
         p[k[i - 1] + 2] <- z[1, i] > z[q, i]
 
         g[i, q - 1] <- 0
-        for (o in 1:length(sk)) {
+        for (o in seq_len(length(sk))) {
           g[i, q - 1] <- g[i, q - 1] + prod(p[sk[[o]]])
         }
       }

@@ -110,7 +110,7 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
 
           if (i == j) {
             g[1, q] <- 0
-            for (o in 1:length(sk)) {
+            for (o in  seq_len(length(sk))) {
               g[1, q] <- g[1, q] + prod(p[sk[[o]]])
               mp[o, q] <- prod(v[sk[[o]]])
             }
@@ -137,7 +137,7 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
 
         if (i == j) {
           g[1, q] <- 0
-          for (o in 1:length(sk)) {
+          for (o in seq_len(length(sk))) {
             g[1, q] <- g[1, q] + prod(p[sk[[o]]])
             mp[o, q] <- prod(v[sk[[o]]])
           }
@@ -158,7 +158,7 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
     #################################
     lp <- z
     z <- list()
-    for (i in 1:length(lp)) {
+    for (i in seq_len(length(lp))) {
       z[[i]] <- lp[, i]
     }
 

@@ -31,12 +31,12 @@ design_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) 
   n <- size_surv(m0, alpha, beta, k=k, hr0=hr0, hr1=hr1, ta, tf, kappa, eta, frac)
   mat <- matrix(NA, nrow = 1, ncol = length(frac))
   rownames(mat) <- c("Cumulative number of events for combined treatment & control")
-  colnames(mat) <- paste("Stage", 1:length(frac))
+  colnames(mat) <- paste("Stage", seq_len(length(frac)))
   mat[1, ] <- ceiling(2 * n[1] * frac)
 
   mat1 <- matrix(NA, nrow = 2, ncol = length(frac))
   rownames(mat1) <- c("Lower bound", "Upper bound")
-  colnames(mat1) <- paste("Stage", 1:length(frac))
+  colnames(mat1) <- paste("Stage", seq_len(length(frac)))
   bv <- scprt(alpha = alpha, k = k, frac = frac)
   mat1[1, ] <- bv$lshape
   mat1[2, ] <- bv$ushape

@@ -32,16 +32,16 @@ A multi-arm trial allows simultaneous comparison of multiple experimental treatm
 
 
 # Statement of Need
-Traditional two-arm randomized control trials are not an optimal choice when multiple experimental arms are available for testing efficacy(@PARMAR2014283). In such situations, a multiple-arm trial should be preferred, which allows simultaneous comparison of multiple experimental arms with a common control and provides substantial efficiency advantage. In multi-arm trials, several arms are monitored in a group sequential fashion, with ineffective arms being dropped out of the study. 
+Traditional two-arm randomized control trials are not an optimal choice when multiple experimental arms are available for testing efficacy(@PARMAR2014283). In such situations, a multiple-arm trial should be preferred, which allows simultaneous comparison of multiple experimental arms with a common control and provides substantial efficiency advantage. In multi-arm trials, several arms are monitored in a group sequential fashion, with ineffective arms being dropped out of the study. Therefore, multi-arm trials offer a more efficient, cost-effective, and patient-centered approach to clinical research, with the potential to identify superior treatments more reliably than traditional two-arm trials(@PARMAR2014283).
 
-Some packages that are available in R(e.g. `adaptTest`@Vandemeulebroecke2022, `asd`@Hack2022 and `AGSDEST`@Parsons2016) have limitations either in the number of treatment arms that can be incorporated in the package, the number of interim analyses that can be implemented in the package, or the different kinds of outcomes that the package can handle, but the `MAMS` package works well both for multiple treatment arms and multiple stages. It also works for continuous, ordinal, and survival outcomes. But the computational effort of obtaining stopping boundaries is very high when the number of stages exceeds 3. The long computational time is the major drawback of using the `MAMS` package.
+Some packages that are available in R(e.g. `adaptTest`@Vandemeulebroecke2022, `asd`@Hack2022 and `AGSDEST`@Parsons2016) have limitations either in the number of treatment arms that can be incorporated in the package, the number of interim analyses that can be implemented in the package, or the different kinds of outcomes that the package can handle, but the `MAMS` package works well both for multiple treatment arms and multiple stages. It also works for continuous, ordinal, and survival outcomes. But the computational effort of obtaining stopping boundaries is very high when the number of stages exceeds 3. The long computational time is the major drawback of using the `MAMS` package and as a result,the process of generating design parameters and evaluating potential modifications can be time-intensive, sometimes taking several hours. This lengthy computation time becomes problematic when researchers or clinicians need to iteratively tweak design parameters and promptly assess the resulting changes in the trial design.
 
 This paper introduces the R package `gsMAMS` available at https://cran.r-project.org/web/packages/gsMAMS/ which provides functions to obtain sample size, and efficacy and futility boundaries for multiple stages and multiple experimental arms. It also provides functions that generate operating characteristics for designing the trials of continuous, ordinal, and survival outcomes. It is computationally very fast compared to the `MAMS` package, even for number of stages greater than 3.
 
 This package will serve well for clinicians, researchers and statisticians  who are involved in designing the phase-II clinical trials with multiple treatment arms because it is easy to use, provides comprehensive information regarding the trial characteristics and provides a substantial efficiency advantage compared to the traditional randomized controlled trial.          
 
 # Computational Aspects
-The computational complexity of this package is very low. The family wise error rate(FWER) is controlled by Dunnett correction, which entails finding the root of an integral of a multivariate normal distribution. The multivariate normal densities are evaluated using the package `mvtnorm`(@Genz2009). The package is efficient for any number of treatment arms and stages, but it has a limitation that it is only configured for 10 stages. In practice, a study rarely needs to have more than 10 interim looks planned. To give an example, the computational time of `MAMS` package to obtain stopping boundaries and sample size of a multi-arm trial for continuous outcome with four experimental arms and three stages is approximately  7 minutes and for four stages is approximately  4.5 hours. But for `gsMAMS` package with same trial configuration, the computational time to obtain stopping boundaries and sample size for three stages and four stages design is approximately  0.06 seconds for both the cases. This is approximately 7000-27000 times faster compared to `MAMS` package.
+The computational complexity of this package is very low because our proposed method is based on the sequential conditional probability ratio test (SCPRT) procedure which provides analytical solutions for both futility and efficacy boundaries to an arbitrary number of stages and arms. Thus, it avoids complicated computational efforts in obtaining stopping boundaries(@Li2023). The family wise error rate(FWER) is controlled by Dunnett correction, which entails finding the root of an integral of a multivariate normal distribution. The multivariate normal densities are evaluated using the package `mvtnorm`(@Genz2009). The package is efficient for any number of treatment arms and stages, but it has a limitation that it is only configured for 10 stages. In practice, a study rarely needs to have more than 10 interim looks planned. To give an example, the computational time of `MAMS` package to obtain stopping boundaries and sample size of a multi-arm trial for continuous outcome with four experimental arms and three stages is approximately  7 minutes and for four stages is approximately  4.5 hours. But for `gsMAMS` package with same trial configuration, the computational time to obtain stopping boundaries and sample size for three stages and four stages design is approximately  0.06 seconds for both the cases. This is approximately 7000-27000 times faster compared to `MAMS` package.
 The operating characteristics for continuous and ordinal outcomes require less computational effort than the survival outcomes. The computational burden of sample size and sequential conditional probability ratio test(SCPRT) boundary calculation for continuous, ordinal and survival outcomes is minimal because there are only two critical components of algorithm which are the roots of FWER and power i.e., critical value and samples size.    
 The below code shows an example demonstration about the computational efficiency of our package where we are designing a four stage trial for four treatment arms and we have used the same equivalent parameters for both the designs. 
 
@@ -121,7 +121,7 @@ The design output shows the cumulative sample size for treatment and control gro
 Based on the design parameters, the first interim analysis can be conducted after the enrollment of 40 patients in the control arm. If the test statistic $Z_{k,l}<0.006$, the $k_{th}$ arm is rejected for futility at $1^{st}$ stage and the trial continues with the remaining treatment arms and the control. If the test statistic 0.006 $\le$ $Z_{k,l}$ $\le$ 2.91 for $k$=1,2,3 then the trial continues to the next stage and 39 patients are further enrolled per arm. If $Z_{k,1} >2.91$ for some $k$, the trial is terminated and the arm with maximum value of $Z_{k,1}$, $k$=1,2,3 would be recommend for further study.
 
 
-For FWER and Stagewise FWER:
+### For FWER and Stagewise FWER:
 
 The operating characteristics of the trial can be generated using the `op_power_cont()` and `op_fwer_cont()` functions for power under alternative hypothesis and FWER under global null hypothesis respectively. Most of the arguments in the function are similar to `design_cont()`  function with the exception of number of simulations(`nsim`) and seed number(`seed`).
 
@@ -158,7 +158,7 @@ op_fwer_cont(alpha = 0.05,
 Based on the simulation results, the type I error at the first interim analysis is 0.5\% and at the second interim analysis, it is approximately  4.6\%. Therefore, the overall type I error of the trial is close to 5\%. The sample size required for the trial was 79 patients per arm but the trial used approximately  an average of 62 subjects per arm. The stopping probability(probability of stopping the trial either due to futility or efficacy) should add up to 1 which is the case here and since this is under null configuration, the probability of futility(probability of stopping the trial when all the treatment arms becomes futile in the trial) should be approximately  95\% and it holds true in this case. 
 
 
-For Power and Stagewise Power:
+### For Power and Stagewise Power:
 ```R
 op_power_cont(alpha = 0.05, 
               beta = 0.1, 
@@ -224,7 +224,7 @@ Based on the design parameters, the first interim analysis can be conducted afte
 The operating characteristics can be generated using the functions `op_fwer_ord()` and `op_power_ord()` which are similar to that of continuous outcome.
 
 ## Survival Outcome
-For survival outcome, we will consider a MAMS trial with five arms (four treatment arms and a control arm, `k`=4) and two interim looks with balanced information time `frac`=c(0.5, 1). The null hazards ratio is (`hr0`)1 and the alternative hazards ratio is (`hr1`)0.67. The median survival time of control group is 20 months and the survival distribution is exponential without loss to follow-up. The sample size calculation is based on a one-sided type I error of 5\% and a power of 90\%. 
+For survival outcome, we will consider a MAMS trial with five arms (four treatment arms and a control arm, `k`=4) and two interim looks with balanced information time (`frac`=c(0.5, 1)). The null hazards ratio is (`hr0`)1 and the alternative hazards ratio is (`hr1`)0.67. The median survival time of control group is 20 months and the survival distribution is exponential without loss to follow-up. The sample size calculation is based on a one-sided type I error of 5\% and a power of 90\%. 
 
 The design parameters for a two-stage design can be calculated using the `design_surv()` function and the arguments in the function correspond to median survival time of the control group(`m0`), hazard ratio of ineffective treatment vs control(`hr0`), hazard ratio of effective treatment vs control(`hr1`), accrual time(`ta`), follow-up time(`tf`), shape parameter of Weibull distribution(`kappa`), rate of loss to follow-up(`eta`)(assumed loss to follow-up follows an exponential distribution with rate parameter eta). 
 
@@ -263,7 +263,7 @@ Based on the design parameters, the first interim analysis can be conducted afte
 
 The operating characteristics of the trial can be generated using the `op_power_surv()` and `op_fwer_surv()` function.
 
-For FWER and Stagewise FWER:
+### For FWER and Stagewise FWER:
 ```R
 op_fwer_surv(m0 = 20, 
              alpha = 0.05, 
@@ -303,7 +303,7 @@ op_fwer_surv(m0 = 20,
 ```
 Based on the simulation results, the type I error is approximately  0.4\% at first interim analysis and approximately  4.6\% at the second interim analysis. Therefore, the overall type I error is maintained at 5\%. The stopping probability should be approximately  1 which is the case here and since this is under null configuration, probability of futility should be approximately  95\% which holds true in this case. The average duration of trial is 54 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 130.
 
-For Power and Stagewise Power :
+### For Power and Stagewise Power :
 ```R
 op_power_surv(m0 = 20, 
               alpha = 0.05, 
@@ -341,7 +341,7 @@ op_power_surv(m0 = 20,
 ## [1] 52.27229
 
 ```
-Based on the simulation results, the probability of success at the first stage is 32.7\% and at the second stage is approximately  58.63\%. Therefore, the overall power is approximately  90\%. The overall stopping probability should be approximately  1 which is the case here and the probability of futility is approximately  8.5\% which is less than 10\% type II error because of the same reason as mentioned in the continuous outcome. The average duration of trial is 52 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 115.
+Based on the simulation results, the probability of success at the first stage is 32.7\% and at the second stage is approximately  58.63\%. Therefore, the desired power of  90\% has been met. The overall stopping probability should add up to 1 which is the case here and the probability of futility is approximately  8.5\% which is less than 10\% type II error because of the same reason as mentioned in the continuous outcome. The average duration of trial is 52 months which is reasonable as the total duration of the trial is 60 months. The average number of events happened per arm is 115.
 
  
 # Acknowledgements

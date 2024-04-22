@@ -16,13 +16,13 @@ design_cont <- function(delta0, delta1, alpha, beta, k, frac) {
   n <- size_cont(delta0 = delta0, delta1 = delta1, alpha = alpha, beta = beta, k = k)
   mat <- matrix(NA, nrow = 2, ncol = length(frac))
   rownames(mat) <- c("Cumulative sample size for treatment group", "Cumulative sample size for control group")
-  colnames(mat) <- paste("Stage", 1:length(frac))
+  colnames(mat) <- paste("Stage", seq_len(length(frac)))
   mat[1, ] <- ceiling(n * frac)
   mat[2, ] <- ceiling(n * frac)
 
   mat1 <- matrix(NA, nrow = 2, ncol = length(frac))
   rownames(mat1) <- c("Lower bound", "Upper bound")
-  colnames(mat1) <- paste("Stage", 1:length(frac))
+  colnames(mat1) <- paste("Stage", seq_len(length(frac)))
   bv <- scprt(alpha = alpha, k = k, frac = frac)
   mat1[1, ] <- bv$lshape
   mat1[2, ] <- bv$ushape

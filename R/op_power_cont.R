@@ -119,7 +119,7 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
           p[k[i - 1] + 2] <- z[1, (i)] > z[q, (i)]
 
           g[i, q - 1] <- 0
-          for (o in 1:length(sk)) {
+          for (o in seq_len(length(sk))) {
             g[i, q - 1] <- g[i, q - 1] + prod(p[sk[[o]]])
           }
           next
@@ -138,7 +138,7 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
         p[k[i - 1] + 2] <- z[1, i] > z[q, i]
 
         g[i, q - 1] <- 0
-        for (o in 1:length(sk)) {
+        for (o in  seq_len(length(sk))) {
           g[i, q - 1] <- g[i, q - 1] + prod(p[sk[[o]]])
         }
       }
@@ -197,7 +197,7 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
     #################################
     lp <- z
     z <- list()
-    for (i in 1:length(lp)) {
+    for (i in seq_len(length(lp))) {
       z[[i]] <- lp[, i]
     }
 
