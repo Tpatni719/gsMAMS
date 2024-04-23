@@ -42,7 +42,7 @@ size_ord <- function(alpha, beta, k, prob, or0, or) {
     root <- function(c) {
       alpha - (1 - mvtnorm::pmvnorm(lower = rep(-Inf, k), upper = rep(c, k), mean = rep(0, k), sigma = Sigma)[1])
     }
-    c <- uniroot(root, lower = 0, upper = 999)$root
+    c <- stats::uniroot(root, lower = 0, upper = 999)$root
     Sigma11 <- Sigma[1:(k - 1), 1:(k - 1)]
     Sigma12 <- Sigma[1:(k - 1), k]
     Sigma21 <- Sigma[k, 1:(k - 1)]

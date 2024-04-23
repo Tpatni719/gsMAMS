@@ -158,7 +158,7 @@ size_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) {
 
 
   G1 <- function(t) {
-    1 - punif(t, tf, tau)
+    1 - stats::punif(t, tf, tau)
   }
   G2 <- function(t) {
     exp(-eta * t)
