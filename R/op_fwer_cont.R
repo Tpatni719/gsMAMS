@@ -28,7 +28,6 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
   bound <- scprt(alpha = alpha, k = K, frac = frac)
 
   l <- size_cont(delta0 = delta0, delta1 = delta1, alpha = alpha, beta = beta, k = K)
-  # l<-84
 
   mu0 <- 0
   mu1 <- 0
@@ -47,9 +46,7 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
   }
 
 
-  # a<-cbind.data.frame(c(-0.630 ,-0.630 ,-0.630 ,-0.630 ),c(0.437,0.437,0.437,0.437),c(2.161,2.161,2.161,2.161))
-  # b<-cbind.data.frame(c(3.126,3.126,3.126,3.126),c(3.092,3.092,3.092,3.092),c(2.161,2.161,2.161,2.161))
-
+   
   a <- data.frame()
   for (i in seq_len(K)) {
     a <- rbind.data.frame(a, bound$lshape)
@@ -61,8 +58,6 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
   }
 
 
-  # print(a)
-  # print(b)
   set.seed(seed)
   for (e in seq_len(nsim)) {
     m <- list()
@@ -73,12 +68,10 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
     for (i in 3:(K + 1)) {
       m[[i]] <- stats::rnorm(l, mean = mu4, sd = 1)
     }
-    ## l sample size per arm
-    # j<-j
+     
     r <- 1
     sd <- 1
     z <- data.frame(matrix(ncol = j, nrow = 0))
-    # r<-1
     for (i in 1:j) {
       for (p in 1:(K)) {
         z[p, i] <- sqrt(r * n[i] / (sd^2 * (1 + r))) * (mean(m[[p + 1]][1:(n[i])]) - mean(m[[1]][1:n[i]]))
@@ -89,16 +82,15 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
     g <- data.frame(matrix(ncol = w, nrow = 0))
     mp <- data.frame(matrix(ncol = w, nrow = 0))
     for (q in 1:(length(g))) {
-      # j<-3
       p <- numeric(length = (j - 1) * 3)
       v <- numeric(length = (j - 1) * 3)
       k <- seq(1, 25, by = 3)[1:(j - 1)]
       sk <- list(a = 1, b = c(2, 3))
-      # q<-as.numeric()
+  
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
+      
           p[k[i - 1]] <- z[q, (i - 1)] < a[q, (i - 1)]
           p[k[i - 1] + 1] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 2] <- z[q, (i)] < b[q, (i)]
