@@ -60,10 +60,7 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
 
   sp <- numeric()
   pf <- numeric()
-  # smn<-numeric()
-
-  # print(a)
-  # print(b)
+  
   set.seed(seed)
   for (e in 1:nsim) {
     m <- list()
@@ -74,12 +71,12 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
     for (i in 3:(K + 1)) {
       m[[i]] <- stats::rnorm(l, mean = mu4, sd = 1)
     }
-    ## l sample size per arm
-    # j<-j
+     
+     
     sd <- 1
 
     z <- data.frame(matrix(ncol = j, nrow = 0))
-    # r<-1
+    
     for (i in 1:j) {
       for (p in 1:(K)) {
         z[p, i] <- sqrt(r * n[i] / (sd^2 * (1 + r))) * (mean(m[[p + 1]][1:(n[i])]) - mean(m[[1]][1:n[i]]))
@@ -105,15 +102,13 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
     g <- data.frame(matrix(ncol = w - 1, nrow = 0))
 
     for (q in 2:(length(g) + 1)) {
-      # j<-3
       p <- numeric(length = (j - 1) * 3)
       k <- seq(1, 25, by = 3)[1:(j - 1)]
       sk <- list(a = 1, b = c(2, 3))
-      # q<-as.numeric()
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
+      
           p[k[i - 1]] <- z[q, (i - 1)] < a[q, (i - 1)]
           p[k[i - 1] + 1] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 2] <- z[1, (i)] > z[q, (i)]
@@ -152,11 +147,11 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
       p <- numeric(length = (j - 1) * 2)
       k <- seq(1, 20, by = 2)[1:(j - 1)]
       sk <- list(a = c(1, 2))
-      # q<-as.numeric()
+    
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
+        
           # p[k[i-1]]<-z[q,(i-1)]<a[q,(i-1)]
           p[k[i - 1]] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 1] <- z[1, (i)] > b[q, (i)]
@@ -165,7 +160,7 @@ op_power_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
           next
         }
 
-        # tk<-sk[[length(sk)]]
+  
 
         sk[[length(sk) + 1]] <- sk[[length(sk)]]
         sk[[length(sk)]][length(sk[[length(sk)]])] <- sk[[length(sk)]][length(sk[[length(sk)]])] + 1

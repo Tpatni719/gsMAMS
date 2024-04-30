@@ -55,7 +55,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
 
   lambda <- numeric()
 
-  # lambda[1]=lambda0*hr1
+
 
   for (i in 1:K) {
     lambda[i] <- lambda0^(1 / kappa)
@@ -95,9 +95,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
   }
 
 
-  # a<-cbind.data.frame(c(-0.630 ,-0.630 ,-0.630 ,-0.630 ),c(0.437,0.437,0.437,0.437),c(2.161,2.161,2.161,2.161))
-  # b<-cbind.data.frame(c(3.126,3.126,3.126,3.126),c(3.092,3.092,3.092,3.092),c(2.161,2.161,2.161,2.161))
-
+   
   a <- data.frame()
   for (i in 1:K) {
     a <- rbind.data.frame(a, bound$lshape)
@@ -114,8 +112,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
   smn <- numeric()
   smd <- numeric()
   dur <- numeric()
-  # print(a)
-  # print(b)
+   
   set.seed(seed)
   for (e in 1:nsim) {
     Q <- rep(0, j)
@@ -141,12 +138,11 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
     for (i in 1:K) {
       dat <- rbind.data.frame(datagen[[1]], datagen[[i + 1]])
       colnames(dat) <- c("time", "event", "group", "accrualtime")
-      # dat=data.frame(dat)
+  
       dat$calendar_T <- dat$accrualtime + dat$time
       dat <- dat[order(dat$calendar_T), ]
       dat$cum_event <- cumsum(dat$event)
       data[[i]] <- dat
-      # print(head(data[[i]]))
     }
 
 
@@ -165,7 +161,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
     for (h in (1:j)) {
       for (k in (1:K)) {
         if (h < j) {
-          #  if (e==5 & h==1){browser()}
+      
           dlook <- ceiling(tstar * h * 2 * d)
           loc <- min(which(data[[k]]$cum_event == dlook))
           calendarT_look[k, h] <- data[[k]]$calendar_T[loc]
@@ -176,7 +172,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
           ]
           data_compare_part2$event <- 0
           data_compare_part2$time <- data_compare_part1$calendar_T[loc] - data_compare_part2$accrualtime
-          # data_compare_part2$accrualtime
+    
           data_compare <- rbind(data_compare_part1, data_compare_part2)
           stagensizeT[k, h] <- nrow(data_compare[data_compare$group != 0, ])
           stagensizeC[k, h] <- nrow(data_compare[data_compare$group == 0, ])
@@ -185,7 +181,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
           stagedsizeC[k, h] <- nrow(data_compare[data_compare$group == 0 & data_compare$event == 1, ])
         }
 
-        # if (e==5 & h==1){browser()}
+      
         if (h == j) {
           calendarT_look[k, h] <- tau
           data_compare <- data[[k]]
@@ -194,15 +190,13 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
           stagedsizeT[k, h] <- nrow(data_compare[data_compare$group != 0 & data_compare$event == 1, ])
           stagedsizeC[k, h] <- nrow(data_compare[data_compare$group == 0 & data_compare$event == 1, ])
         }
-        # print(head(data_compare))
-        # print(head(data_compare))
-        # test_result=logranktest(data_compare$time, data_compare$event,data_compare$group)
+         
         temp <- survival::survdiff(survival::Surv(time, event) ~ group, data = data_compare)
         z[k, h] <- sign(temp$obs[1] - temp$exp[1]) * sqrt(temp$chisq)
-        # logranktest(data_compare$time, data_compare$event,data_compare$group)
+        
       }
     }
-    # print(z)
+    
 
     w <- K
     g <- data.frame(matrix(ncol = w, nrow = 0))
@@ -213,11 +207,11 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
       v <- numeric(length = (j - 1) * 3)
       k <- seq(1, 25, by = 3)[1:(j - 1)]
       sk <- list(a = 1, b = c(2, 3))
-      # q<-as.numeric()
+      
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
+      
           p[k[i - 1]] <- z[q, (i - 1)] < a[q, (i - 1)]
           p[k[i - 1] + 1] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 2] <- z[q, (i)] < b[q, (i)]
@@ -235,7 +229,7 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
           }
           next
         }
-        # print(mp)
+      
 
         tk <- sk[[length(sk)]]
 

@@ -103,8 +103,7 @@ op_power_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
   sp <- numeric()
   pf <- numeric()
 
-  # print(a)
-  # print(b)
+   
   set.seed(seed)
   for (e in 1:nsim) {
     z <- matrix(NA, K, j)
@@ -128,14 +127,14 @@ op_power_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
 
     for (v in (1:K)) {
       for (h in (1:j)) {
-        # ________________For group k vs. control group
+        
         if (j == 1) {
           z[v, h] <- score(h, h, n[1], datagen[[1]], datagen[[v + 1]])
         } else {
           z[v, h] <- score(h, h, n[1], datagen[[1]][, h], datagen[[v + 1]][, h])
         }
       }
-      # print(c(j,k))
+       
     }
 
 
@@ -157,15 +156,15 @@ op_power_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
     g <- data.frame(matrix(ncol = w - 1, nrow = 0))
 
     for (q in 2:(length(g) + 1)) {
-      # j<-3
+       
       p <- numeric(length = (j - 1) * 3)
       k <- seq(1, 25, by = 3)[1:(j - 1)]
       sk <- list(a = 1, b = c(2, 3))
-      # q<-as.numeric()
+       
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
+           
           p[k[i - 1]] <- z[q, (i - 1)] < a[q, (i - 1)]
           p[k[i - 1] + 1] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 2] <- z[1, (i)] > z[q, (i)]
@@ -200,16 +199,15 @@ op_power_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
     sj <- data.frame(matrix(ncol = 1, nrow = 0))
 
     for (q in 1:1) {
-      # j<-3
+       
       p <- numeric(length = (j - 1) * 2)
       k <- seq(1, 20, by = 2)[1:(j - 1)]
       sk <- list(a = c(1, 2))
-      # q<-as.numeric()
+      
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
-          # p[k[i-1]]<-z[q,(i-1)]<a[q,(i-1)]
+           
           p[k[i - 1]] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 1] <- z[1, (i)] > b[q, (i)]
 
@@ -217,7 +215,7 @@ op_power_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
           next
         }
 
-        # tk<-sk[[length(sk)]]
+        
 
         sk[[length(sk) + 1]] <- sk[[length(sk)]]
         sk[[length(sk)]][length(sk[[length(sk)]])] <- sk[[length(sk)]][length(sk[[length(sk)]])] + 1

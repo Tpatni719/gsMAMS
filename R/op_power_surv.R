@@ -105,12 +105,11 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
   smd <- numeric()
   dur <- numeric()
 
-  # print(a)
-  # print(b)
+   
   set.seed(seed)
   for (e in 1:nsim) {
     Q <- rep(0, j)
-    # ASN=0
+     
     datagen <- NULL
     for (i in 1:(K + 1)) {
       w <- stats::rweibull(n, kappa, scale[i])
@@ -132,12 +131,12 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
     for (i in 1:K) {
       dat <- rbind.data.frame(datagen[[1]], datagen[[i + 1]])
       colnames(dat) <- c("time", "event", "group", "accrualtime")
-      # dat=data.frame(dat)
+       
       dat$calendar_T <- dat$accrualtime + dat$time
       dat <- dat[order(dat$calendar_T), ]
       dat$cum_event <- cumsum(dat$event)
       data[[i]] <- dat
-      # print(head(data[[i]]))
+       
     }
 
 
@@ -166,7 +165,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
           ]
           data_compare_part2$event <- 0
           data_compare_part2$time <- data_compare_part1$calendar_T[loc] - data_compare_part2$accrualtime
-          # data_compare_part2$accrualtime
+           
           data_compare <- rbind(data_compare_part1, data_compare_part2)
           stagensizeT[k, h] <- nrow(data_compare[data_compare$group != 0, ])
           stagensizeC[k, h] <- nrow(data_compare[data_compare$group == 0, ])
@@ -175,7 +174,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
           stagedsizeC[k, h] <- nrow(data_compare[data_compare$group == 0 & data_compare$event == 1, ])
         }
 
-        # if (e==5 & h==1){browser()}
+        
         if (h == j) {
           calendarT_look[k, h] <- tau
           data_compare <- data[[k]]
@@ -187,7 +186,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
 
         temp <- survival::survdiff(survival::Surv(time, event) ~ group, data = data_compare)
         z[k, h] <- sign(temp$obs[1] - temp$exp[1]) * sqrt(temp$chisq)
-        # logranktest(data_compare$time, data_compare$event,data_compare$group)
+         
       }
     }
 
@@ -214,11 +213,11 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
       p <- numeric(length = (j - 1) * 3)
       k <- seq(1, 25, by = 3)[1:(j - 1)]
       sk <- list(a = 1, b = c(2, 3))
-      # q<-as.numeric()
+       
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
+           
           p[k[i - 1]] <- z[q, (i - 1)] < a[q, (i - 1)]
           p[k[i - 1] + 1] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 2] <- z[1, (i)] > z[q, (i)]
@@ -253,16 +252,14 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
     sj <- data.frame(matrix(ncol = 1, nrow = 0))
 
     for (q in 1:1) {
-      # j<-3
+       
       p <- numeric(length = (j - 1) * 2)
       k <- seq(1, 20, by = 2)[1:(j - 1)]
       sk <- list(a = c(1, 2))
-      # q<-as.numeric()
+       
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
-          # p[k[i-1]]<-z[q,(i-1)]<a[q,(i-1)]
           p[k[i - 1]] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 1] <- z[1, (i)] > b[q, (i)]
 
@@ -270,7 +267,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
           next
         }
 
-        # tk<-sk[[length(sk)]]
+         
 
         sk[[length(sk) + 1]] <- sk[[length(sk)]]
         sk[[length(sk)]][length(sk[[length(sk)]])] <- sk[[length(sk)]][length(sk[[length(sk)]])] + 1
