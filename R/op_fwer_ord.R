@@ -70,7 +70,7 @@ op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
   bound <- scprt(alpha = alpha, k = K, frac = frac)
 
   l <- size_ord(prob = prob, or = or, or0 = or0, alpha = alpha, beta = beta, k = K)
-  # l<-84
+
 
   prob1 <- prob
   prob2 <- prob
@@ -88,9 +88,7 @@ op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
   }
 
 
-  # a<-cbind.data.frame(c(-0.630 ,-0.630 ,-0.630 ,-0.630 ),c(0.437,0.437,0.437,0.437),c(2.161,2.161,2.161,2.161))
-  # b<-cbind.data.frame(c(3.126,3.126,3.126,3.126),c(3.092,3.092,3.092,3.092),c(2.161,2.161,2.161,2.161))
-
+   
   a <- data.frame()
   for (i in 1:K) {
     a <- rbind.data.frame(a, bound$lshape)
@@ -102,8 +100,7 @@ op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
   }
 
 
-  # print(a)
-  # print(b)
+  
   set.seed(seed)
   for (e in 1:nsim) {
     z <- matrix(NA, K, j)
@@ -127,30 +124,30 @@ op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
 
     for (v in (1:K)) {
       for (h in (1:j)) {
-        # ________________For group k vs. control group
+        
         if (j == 1) {
           z[v, h] <- score(h, h, n[1], datagen[[1]], datagen[[v + 1]])
         } else {
           z[v, h] <- score(h, h, n[1], datagen[[1]][, h], datagen[[v + 1]][, h])
         }
       }
-      # print(c(j,k))
+      
     }
 
     w <- K
     g <- data.frame(matrix(ncol = w, nrow = 0))
     mp <- data.frame(matrix(ncol = w, nrow = 0))
     for (q in 1:(length(g))) {
-      # j<-3
+      
       p <- numeric(length = (j - 1) * 3)
       v <- numeric(length = (j - 1) * 3)
       k <- seq(1, 25, by = 3)[1:(j - 1)]
       sk <- list(a = 1, b = c(2, 3))
-      # q<-as.numeric()
+      
 
       for (i in 2:(j)) {
         if (i == 2) {
-          # browser()
+           
           p[k[i - 1]] <- z[q, (i - 1)] < a[q, (i - 1)]
           p[k[i - 1] + 1] <- z[q, (i - 1)] > a[q, (i - 1)] & z[q, (i - 1)] < b[q, (i - 1)]
           p[k[i - 1] + 2] <- z[q, (i)] < b[q, (i)]
