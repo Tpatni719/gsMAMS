@@ -266,10 +266,10 @@ op_fwer_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kappa
       s2[y] <- s2[y] + ifelse(sum(mp[y, ]) >= 1, 1, 0)
     }
 
-    #################################
+    
 
 
-    ############################
+    
 
     stopprob <- rep(0, j)
     probfut <- rep(0, j)
