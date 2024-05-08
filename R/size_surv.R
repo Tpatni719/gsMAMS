@@ -548,10 +548,7 @@ size_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) {
 
 
 
-
-  # Sigma=matrix(c(1,rho12,rho13,rho14, rho12, 1, rho23, rho24, rho13, rho23, 1,
-  #                rho34, rho14, rho24, rho34, 1), k,k)
-
+ 
   Sigma <- diag(1, k, k)
 
   Sigma[lower.tri(Sigma)] <- rho
@@ -559,8 +556,7 @@ size_surv <- function(m0, alpha, beta, k, hr0, hr1, ta, tf, kappa, eta, frac) {
   Sigma <- Sigma + t(Sigma) + diag(-1, k, k)
 
 
-  # A=matrix(c(1, -1, 0, 0, 1, 0, -1, 0, 1, 0, 0, -1, 1, 0, 0, 0), k, k, byrow=T)
-
+   
   A <- diag(-1, k - 1, k - 1)
   A <- rbind(A, rep(0, k - 1))
   A <- cbind(rep(1, k), A)
