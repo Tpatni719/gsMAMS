@@ -202,7 +202,7 @@ op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
 
 
 
-    #################################
+    
     lp <- as.data.frame(z)
     z <- list()
     for (i in  seq_len(length(lp))) {
@@ -259,7 +259,7 @@ op_fwer_ord <- function(alpha, beta, p, frac, or0, or, nsim, prob, seed) {
         }
       }
     }
-    ############################
+    
 
     z <- lp
     stopprob <- rep(0, j)
