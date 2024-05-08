@@ -295,11 +295,7 @@ op_power_surv <- function(m0, alpha, beta, p, frac, hr0, hr1, nsim, ta, tf, kapp
         s2[y] <- s2[y] + 1
       }
     }
-
-    #################################
-
-
-    ############################
+ 
     stopprob <- rep(0, j)
     probfut <- rep(0, j)
     stop <- rep(0, j)
