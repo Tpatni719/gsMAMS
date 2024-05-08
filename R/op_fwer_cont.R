@@ -147,8 +147,7 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
 
 
 
-    #################################
-    lp <- z
+        lp <- z
     z <- list()
     for (i in seq_len(length(lp))) {
       z[[i]] <- lp[, i]
@@ -205,8 +204,7 @@ op_fwer_cont <- function(alpha, beta, p, frac, delta0, delta1, nsim, seed) {
       }
     }
 
-    ############################
-    z <- lp
+        z <- lp
     stopprob <- rep(0, j)
     probfut <- rep(0, j)
     stop <- rep(0, j)
