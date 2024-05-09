@@ -31,7 +31,7 @@ continuous, ordinal, and survival outcomes.
 
 ## Install from CRAN
 
-The stable version of **gsMAMS**, v0.7.1, is available on CRAN:
+The stable version of **gsMAMS**, v0.7.2, is available on CRAN:
 
 ``` r
 # install.packages("gsMAMS")
