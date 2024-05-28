@@ -18,9 +18,9 @@ authors:
     affiliation: "2"
     
 affiliations:
- - name: St. Jude Children's Research Hospital
+ - name: St. Jude Children's Research Hospital, Memphis, TN, United States of America
    index: 1
- - name: University of New Mexico Comprehensive Cancer Center
+ - name: University of New Mexico Comprehensive Cancer Center, Albuquerque, NM, United States of America
    index: 2
    
 date:  9 January 2024
